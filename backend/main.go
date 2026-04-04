@@ -4,13 +4,19 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/milabo0718/offer-pilot/backend/common/aihelper"
 	"github.com/milabo0718/offer-pilot/backend/common/email"
 	"github.com/milabo0718/offer-pilot/backend/common/mysql"
+	"github.com/milabo0718/offer-pilot/backend/common/rabbitmq"
 	"github.com/milabo0718/offer-pilot/backend/common/redis"
 	"github.com/milabo0718/offer-pilot/backend/config"
+	sessioncontroller "github.com/milabo0718/offer-pilot/backend/controller/session"
 	usercontroller "github.com/milabo0718/offer-pilot/backend/controller/user"
+	messagedao "github.com/milabo0718/offer-pilot/backend/dao/message"
+	sessiondao "github.com/milabo0718/offer-pilot/backend/dao/session"
 	userdao "github.com/milabo0718/offer-pilot/backend/dao/user"
 	"github.com/milabo0718/offer-pilot/backend/router"
+	sessionservice "github.com/milabo0718/offer-pilot/backend/service/session"
 	userservice "github.com/milabo0718/offer-pilot/backend/service/user"
 	"github.com/milabo0718/offer-pilot/backend/utils/myjwt"
 
@@ -22,6 +28,7 @@ type App struct {
 	RedisStore  *redis.RedisStore
 	JWTManager  *myjwt.JWTManager
 	EmailSender *email.EmailSender
+	AiManager   *aihelper.AIHelperManager
 }
 
 func startServer(host string, port int, app *App) error {
@@ -33,13 +40,13 @@ func startServer(host string, port int, app *App) error {
 	userController := usercontroller.NewUserController(userService)
 
 	// Session相关的DAO、Service、Controller初始化
-	// sessionDao := session.NewSessionDao(app.DB)
+	sessionDao := sessiondao.NewSessionDao(app.DB)
 
-	// sessionService := session.NewSessionService(sessionDao)
+	sessionService := sessionservice.NewSessionService(sessionDao, app.AiManager)
 
-	// sessionController := session.NewSessionController(sessionService)
+	sessionController := sessioncontroller.NewSessionController(sessionService)
 	// 初始化路由
-	r := router.InitRouter(userController)
+	r := router.InitRouter(userController, sessionController, app.JWTManager)
 
 	addr := fmt.Sprintf("%s:%d", host, port)
 	log.Printf("Server is running on %s", addr)
@@ -73,11 +80,38 @@ func main() {
 	// 初始化Email发送器
 	emailSender := email.NewEmailSender(&conf.EmailConfig)
 
+	// 初始化RabbitMQ连接
+	rabbitMQConn, err := rabbitmq.NewRabbitMQConnection(&conf.RabbitmqConfig)
+	if err != nil {
+		log.Fatalf("RabbitMQ 连接失败: %v", err)
+	}
+	defer rabbitMQConn.Close()
+
+	messagePublisher, err := rabbitmq.NewRabbitMQ(rabbitMQConn, "Message")
+	if err != nil {
+		log.Fatalf("RabbitMQ 初始化失败: %v", err)
+	}
+
+	messageConsumerWorker, err := rabbitmq.NewRabbitMQ(rabbitMQConn, "Message")
+	if err != nil {
+		log.Fatalf("创建 MQ Consumer 失败: %v", err)
+	}
+
+	messageDao := messagedao.NewMessageDao(db)
+
+	msgConsumer := rabbitmq.NewMessageConsumer(messageDao, messageConsumerWorker)
+
+	go msgConsumer.Start()
+	// 初始化AI助手管理器
+	factory := aihelper.NewAIModelFactory()
+
+	aiManager := aihelper.NewAIHelperManager(factory, messagePublisher)
 	app := &App{
 		DB:          db,
 		RedisStore:  redisStore,
 		JWTManager:  jwtManager,
 		EmailSender: emailSender,
+		AiManager:   aiManager,
 	}
 
 	host := conf.MainConfig.Host

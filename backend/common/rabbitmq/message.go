@@ -62,3 +62,7 @@ func (c *MessageConsumer) HandleMessage(msg *amqp.Delivery) error {
 	}
 	return nil
 }
+
+func (c *MessageConsumer) Start() {
+	c.worker.Consume(c.HandleMessage)
+}
