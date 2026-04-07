@@ -18,8 +18,9 @@ type (
 		Sessions []model.SessionInfo `json:"sessions,omitempty"`
 	}
 	CreateSessionAndSendMessageRequest struct {
-		UserQuestion string `json:"question" binding:"required"`  // 用户问题;
-		ModelType    string `json:"modelType" binding:"required"` // 模型类型;
+		UserQuestion string `json:"question" binding:"required"`   // 用户问题;
+		ModelType    string `json:"modelType" binding:"required"`  // 模型类型;
+		JDProfile    string `json:"jdProfile,omitempty"`           // JD解析画像(JSON字符串)
 	}
 
 	CreateSessionAndSendMessageResponse struct {
@@ -32,6 +33,7 @@ type (
 		UserQuestion string `json:"question" binding:"required"`            // 用户问题;
 		ModelType    string `json:"modelType" binding:"required"`           // 模型类型;
 		SessionID    string `json:"sessionId,omitempty" binding:"required"` // 当前会话ID
+		JDProfile    string `json:"jdProfile,omitempty"`                    // JD解析画像(JSON字符串)
 	}
 
 	ChatSendResponse struct {
@@ -44,6 +46,16 @@ type (
 	}
 	ChatHistoryResponse struct {
 		History []model.History `json:"history"`
+		controller.Response
+	}
+
+	JDParseRequest struct {
+		JDText    string `json:"jdText" binding:"required"`
+		ModelType string `json:"modelType"`
+	}
+
+	JDParseResponse struct {
+		Data *model.JDParseResult `json:"data,omitempty"`
 		controller.Response
 	}
 )
@@ -84,7 +96,7 @@ func (sc *SessionController) CreateSessionAndSendMessage(ctx *gin.Context) {
 		return
 	}
 	//内部会创建会话并发送消息，并会将AI回答、当前会话返回
-	session_id, aiInformation, code_ := sc.sessionService.CreateSessionAndSendMessage(ctx, userName, req.UserQuestion, req.ModelType)
+	session_id, aiInformation, code_ := sc.sessionService.CreateSessionAndSendMessage(ctx, userName, req.UserQuestion, req.ModelType, req.JDProfile)
 
 	if code_ != code.CodeSuccess {
 		ctx.JSON(http.StatusOK, res.CodeOf(code_))
@@ -125,7 +137,7 @@ func (sc *SessionController) CreateStreamSessionAndSendMessage(ctx *gin.Context)
 	ctx.Writer.Flush()
 
 	// 然后开始把本次回答进行流式发送（包含最后的 [DONE]）
-	code_ = sc.sessionService.StreamMessageToExistingSession(ctx, userName, sessionID, req.UserQuestion, req.ModelType, http.ResponseWriter(ctx.Writer))
+	code_ = sc.sessionService.StreamMessageToExistingSession(ctx, userName, sessionID, req.UserQuestion, req.ModelType, req.JDProfile, http.ResponseWriter(ctx.Writer))
 	if code_ != code.CodeSuccess {
 		ctx.SSEvent("error", gin.H{"message": "Failed to send message"})
 		return
@@ -142,7 +154,7 @@ func (sc *SessionController) ChatSend(ctx *gin.Context) {
 		return
 	}
 	// 发送消息，并会将AI回答返回
-	aiInformation, code_ := sc.sessionService.ChatSend(ctx, userName, req.SessionID, req.UserQuestion, req.ModelType)
+	aiInformation, code_ := sc.sessionService.ChatSend(ctx, userName, req.SessionID, req.UserQuestion, req.ModelType, req.JDProfile)
 
 	if code_ != code.CodeSuccess {
 		ctx.JSON(http.StatusOK, res.CodeOf(code_))
@@ -170,7 +182,7 @@ func (sc *SessionController) ChatStreamSend(ctx *gin.Context) {
 	ctx.Header("Access-Control-Allow-Origin", "*")
 	ctx.Header("X-Accel-Buffering", "no") // 禁止代理缓存
 
-	code_ := sc.sessionService.ChatStreamSend(ctx, userName, req.SessionID, req.UserQuestion, req.ModelType, http.ResponseWriter(ctx.Writer))
+	code_ := sc.sessionService.ChatStreamSend(ctx, userName, req.SessionID, req.UserQuestion, req.ModelType, req.JDProfile, http.ResponseWriter(ctx.Writer))
 	if code_ != code.CodeSuccess {
 		ctx.SSEvent("error", gin.H{"message": "Failed to send message"})
 		return
@@ -195,5 +207,28 @@ func (sc *SessionController) ChatHistory(ctx *gin.Context) {
 
 	res.Success()
 	res.History = history
+	ctx.JSON(http.StatusOK, res)
+}
+
+// 解析岗位JD（文本）
+func (sc *SessionController) ParseJD(ctx *gin.Context) {
+	req := new(JDParseRequest)
+	res := new(JDParseResponse)
+	if err := ctx.ShouldBindJSON(req); err != nil {
+		ctx.JSON(http.StatusOK, res.CodeOf(code.CodeInvalidParams))
+		return
+	}
+	if req.ModelType == "" {
+		req.ModelType = "1"
+	}
+
+	result, code_ := sc.sessionService.ParseJD(ctx, req.JDText, req.ModelType)
+	if code_ != code.CodeSuccess {
+		ctx.JSON(http.StatusOK, res.CodeOf(code_))
+		return
+	}
+
+	res.Success()
+	res.Data = result
 	ctx.JSON(http.StatusOK, res)
 }

@@ -3,6 +3,7 @@ import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Menu from "../views/Menu.vue";
 import AIChat from "../views/AIChat.vue";
+import JDParser from "../views/JDParser.vue";
 
 const routes = [
   {
@@ -29,6 +30,12 @@ const routes = [
     path: "/ai-chat",
     name: "AIChat",
     component: AIChat,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/jd-parser",
+    name: "JDParser",
+    component: JDParser,
     meta: { requiresAuth: true },
   },
 ];

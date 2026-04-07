@@ -6,18 +6,11 @@
     </el-header>
     <el-main class="main">
       <div class="menu-grid">
-        <el-card class="menu-item" @click="$router.push('/ai-chat')">
+        <el-card class="menu-item" @click="$router.push('/jd-parser')">
           <div class="card-content">
-            <el-icon size="48" color="#409eff"><ChatDotRound /></el-icon>
-            <h3>AI聊天</h3>
-            <p>与AI进行智能对话</p>
-          </div>
-        </el-card>
-        <el-card class="menu-item" @click="$router.push('/image-recognition')">
-          <div class="card-content">
-            <el-icon size="48" color="#67c23a"><Camera /></el-icon>
-            <h3>图像识别</h3>
-            <p>上传图片进行AI识别</p>
+            <el-icon size="48" color="#409eff"><DocumentAdd /></el-icon>
+            <h3>JD解析</h3>
+            <p>先解析岗位需求，再自动开始AI面试</p>
           </div>
         </el-card>
       </div>
@@ -28,13 +21,12 @@
 <script>
 import { useRouter } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { ChatDotRound, Camera } from "@element-plus/icons-vue";
+import { DocumentAdd } from "@element-plus/icons-vue";
 
 export default {
   name: "MenuView",
   components: {
-    ChatDotRound,
-    Camera,
+    DocumentAdd,
   },
   setup() {
     const router = useRouter();

@@ -114,6 +114,28 @@ export default {
     const selectedModel = ref("1");
     const isStreaming = ref(false);
 
+    const getJDProfileText = () => {
+      try {
+        const raw = localStorage.getItem("jd_profile");
+        if (!raw) return "";
+        const profile = JSON.parse(raw);
+        if (!profile || typeof profile !== "object") return "";
+        const parts = [];
+        if (profile.jobTitle) parts.push(`岗位: ${profile.jobTitle}`);
+        if (Array.isArray(profile.skills) && profile.skills.length) {
+          parts.push(`技能: ${profile.skills.join("、")}`);
+        }
+        if (profile.experience) parts.push(`经验: ${profile.experience}`);
+        if (Array.isArray(profile.keywords) && profile.keywords.length) {
+          parts.push(`关键词: ${profile.keywords.join("、")}`);
+        }
+        if (profile.summary) parts.push(`摘要: ${profile.summary}`);
+        return parts.join("\n");
+      } catch (e) {
+        return "";
+      }
+    };
+
     const renderMarkdown = (text) => {
       if (!text && text !== "") return "";
       return String(text)
@@ -313,8 +335,8 @@ export default {
       }
 
       const url = tempSession.value
-        ? "/api/ai/v1/chat/send-stream-new-session"
-        : "/api/ai/v1/chat/send-stream";
+        ? "/api/v1/ai/chat/send-stream-new-session"
+        : "/api/v1/ai/chat/send-stream";
 
       const headers = {
         "Content-Type": "application/json",
@@ -322,11 +344,16 @@ export default {
       };
 
       const body = tempSession.value
-        ? { question: question, modelType: selectedModel.value }
+        ? {
+            question: question,
+            modelType: selectedModel.value,
+            jdProfile: getJDProfileText(),
+          }
         : {
             question: question,
             modelType: selectedModel.value,
             sessionId: currentSessionId.value,
+            jdProfile: getJDProfileText(),
           };
 
       try {
@@ -461,6 +488,7 @@ export default {
         const response = await api.post("/ai/chat/send-new-session", {
           question: question,
           modelType: selectedModel.value,
+          jdProfile: getJDProfileText(),
         });
         if (response.data && response.data.status_code === 1000) {
           const sessionId = String(response.data.sessionId);
@@ -491,6 +519,7 @@ export default {
           question: question,
           modelType: selectedModel.value,
           sessionId: currentSessionId.value,
+          jdProfile: getJDProfileText(),
         });
         if (response.data && response.data.status_code === 1000) {
           const aiMessage = {

@@ -10,6 +10,7 @@ func AIRouter(r *gin.RouterGroup, sc *session.SessionController) {
 
 	// 聊天相关接口
 	{
+		r.POST("/jd/parse", sc.ParseJD)
 		r.GET("/chat/sessions", sc.GetUserSessionsByUserName)
 		r.POST("/chat/send-new-session", sc.CreateSessionAndSendMessage)
 		r.POST("/chat/send", sc.ChatSend)
