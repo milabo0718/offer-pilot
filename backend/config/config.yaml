@@ -4,7 +4,7 @@ mainConfig:
   port: 9090
 
 emailConfig:
-  authcode: "xwxwbanecucebcha"
+  authcode: "vqqocpwnzmzlbdhb"
   email: "1019426464@qq.com"
 
 redisConfig:
@@ -19,18 +19,18 @@ mysqlConfig:
   port: 3306
   user: "root"
   password: "lwr2005718"
-  databaseName: "gopherai"
+  databaseName: "offer-pilot"
   charset: "utf8mb4"
 
 jwtConfig:
   expire_duration: 8760
   issuer: "huanheart"
-  subject: "GopherAI"
-  key: "GopherAI-v1"
+  subject: "OfferPilot"
+  key: "OfferPilot"
 
 rabbitmqConfig:
-  host: "127.0.0.1"
+  host: "192.168.175.161"
   port: 5672
-  username: "root"
+  username: "admi"
   password: "123456"
   vhost: "/"

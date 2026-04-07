@@ -144,7 +144,7 @@ export default {
 
     const loadSessions = async () => {
       try {
-        const response = await api.get("/AI/chat/sessions");
+        const response = await api.get("/ai/chat/sessions");
         if (
           response.data &&
           response.data.status_code === 1000 &&
@@ -187,7 +187,7 @@ export default {
         sessions.value[sessionId].messages.length === 0
       ) {
         try {
-          const response = await api.post("/AI/chat/history", {
+          const response = await api.post("/ai/chat/history", {
             sessionId: currentSessionId.value,
           });
           if (
@@ -217,7 +217,7 @@ export default {
         return;
       }
       try {
-        const response = await api.post("/AI/chat/history", {
+        const response = await api.post("/ai/chat/history", {
           sessionId: currentSessionId.value,
         });
         if (
@@ -313,8 +313,8 @@ export default {
       }
 
       const url = tempSession.value
-        ? "/api/AI/chat/send-stream-new-session"
-        : "/api/AI/chat/send-stream";
+        ? "/api/ai/v1/chat/send-stream-new-session"
+        : "/api/ai/v1/chat/send-stream";
 
       const headers = {
         "Content-Type": "application/json",
@@ -458,7 +458,7 @@ export default {
 
     async function handleNormal(question) {
       if (tempSession.value) {
-        const response = await api.post("/AI/chat/send-new-session", {
+        const response = await api.post("/ai/chat/send-new-session", {
           question: question,
           modelType: selectedModel.value,
         });
@@ -487,7 +487,7 @@ export default {
 
         sessionMsgs.push({ role: "user", content: question });
 
-        const response = await api.post("/AI/chat/send", {
+        const response = await api.post("/ai/chat/send", {
           question: question,
           modelType: selectedModel.value,
           sessionId: currentSessionId.value,

@@ -60,7 +60,7 @@ type Config struct {
 
 func InitConfig(configPath string) (*Config, error) {
 	viper.SetConfigName("config")
-	viper.SetConfigType("toml")
+	viper.SetConfigType("yaml")
 	viper.AddConfigPath(configPath)
 
 	// 读取配置文件
