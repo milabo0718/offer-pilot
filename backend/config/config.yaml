@@ -17,8 +17,8 @@ redisConfig:
 mysqlConfig:
   host: "127.0.0.1"
   port: 3306
-  user: "root"
-  password: "lwr2005718"
+  user: "offerpilot"
+  password: "offerpilot"
   databaseName: "offer-pilot"
   charset: "utf8mb4"
 
@@ -29,8 +29,8 @@ jwtConfig:
   key: "OfferPilot"
 
 rabbitmqConfig:
-  host: "192.168.175.161"
+  host: "127.0.0.1"
   port: 5672
-  username: "admi"
+  username: "admin"
   password: "123456"
   vhost: "/"
