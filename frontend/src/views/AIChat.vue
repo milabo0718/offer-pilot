@@ -15,7 +15,16 @@
           :class="['session-item', { active: currentSessionId === session.id }]"
           @click="switchSession(session.id)"
         >
-          {{ session.name || `会话 ${session.id}` }}
+          <span class="session-title">{{
+            session.name || `会话 ${session.id}`
+          }}</span>
+          <button
+            class="rename-btn"
+            title="重命名"
+            @click.stop="promptRename(session)"
+          >
+            ✎
+          </button>
         </li>
       </ul>
     </div>
@@ -30,6 +39,13 @@
           :disabled="!currentSessionId || tempSession"
         >
           同步历史数据
+        </button>
+        <button
+          class="report-btn"
+          @click="goToReport"
+          :disabled="!currentSessionId || tempSession || loading"
+        >
+          结束面试并生成报告
         </button>
         <label for="modelType">选择模型：</label>
         <select id="modelType" v-model="selectedModel" class="model-select">
@@ -97,43 +113,47 @@
 
 <script>
 import { ref, nextTick, computed, onMounted } from "vue";
-import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
+import { ElMessage, ElMessageBox } from "element-plus";
 import api from "../utils/api";
+import { storeToRefs } from "pinia";
+import { useInterviewStore } from "../stores/interview";
+import { useJDProfileStore } from "../stores/jdProfile";
 
 export default {
   name: "AIChat",
   setup() {
-    const sessions = ref({});
-    const currentSessionId = ref(null);
-    const tempSession = ref(false);
-    const currentMessages = ref([]);
+    const router = useRouter();
+    const interviewStore = useInterviewStore();
+    const jdStore = useJDProfileStore();
+
+    const {
+      sessionList: sessions,
+      currentSessionId,
+      tempSession,
+      currentMessages,
+      selectedModel,
+      isStreaming,
+    } = storeToRefs(interviewStore);
+
     const inputMessage = ref("");
     const loading = ref(false);
     const messagesRef = ref(null);
     const messageInput = ref(null);
-    const selectedModel = ref("1");
-    const isStreaming = ref(false);
 
-    const getJDProfileText = () => {
-      try {
-        const raw = localStorage.getItem("jd_profile");
-        if (!raw) return "";
-        const profile = JSON.parse(raw);
-        if (!profile || typeof profile !== "object") return "";
-        const parts = [];
-        if (profile.jobTitle) parts.push(`岗位: ${profile.jobTitle}`);
-        if (Array.isArray(profile.skills) && profile.skills.length) {
-          parts.push(`技能: ${profile.skills.join("、")}`);
-        }
-        if (profile.experience) parts.push(`经验: ${profile.experience}`);
-        if (Array.isArray(profile.keywords) && profile.keywords.length) {
-          parts.push(`关键词: ${profile.keywords.join("、")}`);
-        }
-        if (profile.summary) parts.push(`摘要: ${profile.summary}`);
-        return parts.join("\n");
-      } catch (e) {
-        return "";
+    const getJDProfileText = () =>
+      tempSession.value ? jdStore.interviewerPromptText : jdStore.profileText;
+
+    const goToReport = () => {
+      if (!currentSessionId.value || tempSession.value) {
+        ElMessage.warning("请先完成至少一轮对话再生成报告");
+        return;
       }
+
+      router.push({
+        name: "InterviewReport",
+        params: { sessionId: String(currentSessionId.value) },
+      });
     };
 
     const renderMarkdown = (text) => {
@@ -165,33 +185,11 @@ export default {
     };
 
     const loadSessions = async () => {
-      try {
-        const response = await api.get("/ai/chat/sessions");
-        if (
-          response.data &&
-          response.data.status_code === 1000 &&
-          Array.isArray(response.data.sessions)
-        ) {
-          const sessionMap = {};
-          response.data.sessions.forEach((s) => {
-            const sid = String(s.sessionId);
-            sessionMap[sid] = {
-              id: sid,
-              name: s.name || `会话 ${sid}`,
-              messages: [], // lazy load
-            };
-          });
-          sessions.value = sessionMap;
-        }
-      } catch (error) {
-        console.error("Load sessions error:", error);
-      }
+      await interviewStore.loadSessions();
     };
 
     const createNewSession = () => {
-      currentSessionId.value = "temp";
-      tempSession.value = true;
-      currentMessages.value = [];
+      interviewStore.createTempSession();
       // focus input
       nextTick(() => {
         if (messageInput.value) messageInput.value.focus();
@@ -199,36 +197,7 @@ export default {
     };
 
     const switchSession = async (sessionId) => {
-      if (!sessionId) return;
-      currentSessionId.value = String(sessionId);
-      tempSession.value = false;
-
-      // lazy load history if not present
-      if (
-        !sessions.value[sessionId].messages ||
-        sessions.value[sessionId].messages.length === 0
-      ) {
-        try {
-          const response = await api.post("/ai/chat/history", {
-            sessionId: currentSessionId.value,
-          });
-          if (
-            response.data &&
-            response.data.status_code === 1000 &&
-            Array.isArray(response.data.history)
-          ) {
-            const messages = response.data.history.map((item) => ({
-              role: item.is_user ? "user" : "assistant",
-              content: item.content,
-            }));
-            sessions.value[sessionId].messages = messages;
-          }
-        } catch (err) {
-          console.error("Load history error:", err);
-        }
-      }
-
-      currentMessages.value = [...(sessions.value[sessionId].messages || [])];
+      await interviewStore.switchSession(sessionId);
       await nextTick();
       scrollToBottom();
     };
@@ -238,29 +207,41 @@ export default {
         ElMessage.warning("请选择已有会话进行同步");
         return;
       }
+
+      await interviewStore.syncHistory();
+      await nextTick();
+      scrollToBottom();
+    };
+
+    const promptRename = async (session) => {
+      if (!session || !session.id) return;
+      if (tempSession.value) {
+        ElMessage.warning("临时会话不支持重命名");
+        return;
+      }
+
       try {
-        const response = await api.post("/ai/chat/history", {
-          sessionId: currentSessionId.value,
-        });
-        if (
-          response.data &&
-          response.data.status_code === 1000 &&
-          Array.isArray(response.data.history)
-        ) {
-          const messages = response.data.history.map((item) => ({
-            role: item.is_user ? "user" : "assistant",
-            content: item.content,
-          }));
-          sessions.value[currentSessionId.value].messages = messages;
-          currentMessages.value = [...messages];
-          await nextTick();
-          scrollToBottom();
-        } else {
-          ElMessage.error("无法获取历史数据");
-        }
-      } catch (err) {
-        console.error("Sync history error:", err);
-        ElMessage.error("请求历史数据失败");
+        const { value } = await ElMessageBox.prompt(
+          "请输入新的会话名称",
+          "重命名会话",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            inputValue: session.name || "",
+            inputPlaceholder: "例如：Java 后端一面",
+            inputValidator: (v) => {
+              if (!v || !String(v).trim()) return "会话名称不能为空";
+              if (String(v).trim().length > 50) return "会话名称太长";
+              return true;
+            },
+          }
+        );
+
+        await interviewStore.renameSession(session.id, value);
+        ElMessage.success("重命名成功");
+      } catch (e) {
+        if (e === "cancel" || e === "close") return;
+        ElMessage.error(e?.message || "重命名失败");
       }
     };
 
@@ -347,13 +328,13 @@ export default {
         ? {
             question: question,
             modelType: selectedModel.value,
-            jdProfile: getJDProfileText(),
+            jdProfile: getJDProfileText().value,
           }
         : {
             question: question,
             modelType: selectedModel.value,
             sessionId: currentSessionId.value,
-            jdProfile: getJDProfileText(),
+            jdProfile: getJDProfileText().value,
           };
 
       try {
@@ -409,13 +390,7 @@ export default {
                     const newSid = String(parsed.sessionId);
                     console.log("[SSE] Session ID:", newSid);
                     if (tempSession.value) {
-                      sessions.value[newSid] = {
-                        id: newSid,
-                        name: "新会话",
-                        messages: [...currentMessages.value],
-                      };
-                      currentSessionId.value = newSid;
-                      tempSession.value = false;
+                      interviewStore.upsertSessionFromTemp(newSid, "新会话");
                     }
                   }
                 } catch (e) {
@@ -488,7 +463,7 @@ export default {
         const response = await api.post("/ai/chat/send-new-session", {
           question: question,
           modelType: selectedModel.value,
-          jdProfile: getJDProfileText(),
+          jdProfile: getJDProfileText().value,
         });
         if (response.data && response.data.status_code === 1000) {
           const sessionId = String(response.data.sessionId);
@@ -497,21 +472,19 @@ export default {
             content: response.data.Information || "",
           };
 
-          sessions.value[sessionId] = {
-            id: sessionId,
-            name: "新会话",
-            messages: [{ role: "user", content: question }, aiMessage],
-          };
-          currentSessionId.value = sessionId;
-          tempSession.value = false;
-          currentMessages.value = [...sessions.value[sessionId].messages];
+          currentMessages.value = [
+            { role: "user", content: question },
+            aiMessage,
+          ];
+          interviewStore.upsertSessionFromTemp(sessionId, "新会话");
         } else {
           ElMessage.error(response.data?.status_msg || "发送失败");
 
           currentMessages.value.pop();
         }
       } else {
-        const sessionMsgs = sessions.value[currentSessionId.value].messages;
+        const sessionMsgs =
+          interviewStore.sessions[currentSessionId.value].messages;
 
         sessionMsgs.push({ role: "user", content: question });
 
@@ -519,7 +492,7 @@ export default {
           question: question,
           modelType: selectedModel.value,
           sessionId: currentSessionId.value,
-          jdProfile: getJDProfileText(),
+          jdProfile: getJDProfileText().value,
         });
         if (response.data && response.data.status_code === 1000) {
           const aiMessage = {
@@ -552,7 +525,7 @@ export default {
 
     // expose to template
     return {
-      sessions: computed(() => Object.values(sessions.value)),
+      sessions: computed(() => sessions.value),
       currentSessionId,
       tempSession,
       currentMessages,
@@ -567,6 +540,8 @@ export default {
       createNewSession,
       switchSession,
       syncHistory,
+      promptRename,
+      goToReport,
       sendMessage,
     };
   },
@@ -693,6 +668,42 @@ export default {
   transition: all 0.2s ease;
   position: relative;
   color: #2c3e50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.session-title {
+  display: inline-block;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rename-btn {
+  margin-left: 10px;
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #2c3e50;
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.rename-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.session-item.active .rename-btn {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .session-item.active {
@@ -762,7 +773,26 @@ export default {
   transition: all 0.2s ease;
 }
 
+.report-btn {
+  background: linear-gradient(135deg, #409eff 0%, #67c23a 100%);
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
 .sync-btn:disabled {
+  background: #ccc;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.report-btn:disabled {
   background: #ccc;
   box-shadow: none;
   cursor: not-allowed;

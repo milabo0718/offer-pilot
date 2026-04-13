@@ -58,6 +58,24 @@ type (
 		Data *model.JDParseResult `json:"data,omitempty"`
 		controller.Response
 	}
+
+	RenameSessionRequest struct {
+		SessionID string `json:"sessionId" binding:"required"`
+		Title     string `json:"title" binding:"required"`
+	}
+	RenameSessionResponse struct {
+		controller.Response
+	}
+
+	GenerateInterviewReportRequest struct {
+		SessionID string `json:"sessionId" binding:"required"`
+		ModelType string `json:"modelType"`
+		JDProfile string `json:"jdProfile,omitempty"`
+	}
+	GenerateInterviewReportResponse struct {
+		Data *model.InterviewReport `json:"data,omitempty"`
+		controller.Response
+	}
 )
 
 type SessionController struct {
@@ -230,5 +248,49 @@ func (sc *SessionController) ParseJD(ctx *gin.Context) {
 
 	res.Success()
 	res.Data = result
+	ctx.JSON(http.StatusOK, res)
+}
+
+// 会话重命名
+func (sc *SessionController) RenameSession(ctx *gin.Context) {
+	req := new(RenameSessionRequest)
+	res := new(RenameSessionResponse)
+	userName := ctx.GetString("userName")
+	if err := ctx.ShouldBindJSON(req); err != nil {
+		ctx.JSON(http.StatusOK, res.CodeOf(code.CodeInvalidParams))
+		return
+	}
+
+	code_ := sc.sessionService.RenameSession(ctx, userName, req.SessionID, req.Title)
+	if code_ != code.CodeSuccess {
+		ctx.JSON(http.StatusOK, res.CodeOf(code_))
+		return
+	}
+
+	res.Success()
+	ctx.JSON(http.StatusOK, res)
+}
+
+// 生成面试评分报告（不落库、按需生成）
+func (sc *SessionController) GenerateInterviewReport(ctx *gin.Context) {
+	req := new(GenerateInterviewReportRequest)
+	res := new(GenerateInterviewReportResponse)
+	userName := ctx.GetString("userName")
+	if err := ctx.ShouldBindJSON(req); err != nil {
+		ctx.JSON(http.StatusOK, res.CodeOf(code.CodeInvalidParams))
+		return
+	}
+	if req.ModelType == "" {
+		req.ModelType = "1"
+	}
+
+	report, code_ := sc.sessionService.GenerateInterviewReport(ctx, userName, req.SessionID, req.ModelType, req.JDProfile)
+	if code_ != code.CodeSuccess {
+		ctx.JSON(http.StatusOK, res.CodeOf(code_))
+		return
+	}
+
+	res.Success()
+	res.Data = report
 	ctx.JSON(http.StatusOK, res)
 }

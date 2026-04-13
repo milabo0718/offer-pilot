@@ -4,6 +4,7 @@ import Register from "../views/Register.vue";
 import Menu from "../views/Menu.vue";
 import AIChat from "../views/AIChat.vue";
 import JDParser from "../views/JDParser.vue";
+import InterviewReport from "../views/InterviewReport.vue";
 
 const routes = [
   {
@@ -36,6 +37,13 @@ const routes = [
     path: "/jd-parser",
     name: "JDParser",
     component: JDParser,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/interview-report/:sessionId",
+    name: "InterviewReport",
+    component: InterviewReport,
+    props: true,
     meta: { requiresAuth: true },
   },
 ];

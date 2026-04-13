@@ -13,6 +13,14 @@
             <p>先解析岗位需求，再自动开始AI面试</p>
           </div>
         </el-card>
+
+        <el-card class="menu-item" @click="$router.push('/ai-chat')">
+          <div class="card-content">
+            <el-icon size="48" color="#409eff"><ChatLineRound /></el-icon>
+            <h3>直接进入面试</h3>
+            <p>跳过 JD 解析，直接进入会话页开始提问</p>
+          </div>
+        </el-card>
       </div>
     </el-main>
   </div>
@@ -21,11 +29,12 @@
 <script>
 import { useRouter } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { DocumentAdd } from "@element-plus/icons-vue";
+import { ChatLineRound, DocumentAdd } from "@element-plus/icons-vue";
 
 export default {
   name: "MenuView",
   components: {
+    ChatLineRound,
     DocumentAdd,
   },
   setup() {

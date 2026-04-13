@@ -10,6 +10,10 @@ module.exports = {
   ],
   parserOptions: {
     parser: "@babel/eslint-parser",
+    requireConfigFile: false,
+    babelOptions: {
+      presets: [require.resolve("@vue/cli-plugin-babel/preset")],
+    },
   },
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",

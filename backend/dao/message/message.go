@@ -21,6 +21,15 @@ func (d *MessageDao) GetMessagesBySessionID(ctx context.Context, sessionID strin
 	return msgs, err
 }
 
+func (d *MessageDao) GetMessagesBySessionIDAndUserName(ctx context.Context, sessionID string, userName string) ([]model.Message, error) {
+	var msgs []model.Message
+	err := d.DB.WithContext(ctx).
+		Where("session_id = ? AND user_name = ?", sessionID, userName).
+		Order("created_at asc").
+		Find(&msgs).Error
+	return msgs, err
+}
+
 func (d *MessageDao) GetMessagesBySessionIDs(ctx context.Context, sessionIDs []string) ([]model.Message, error) {
 	var msgs []model.Message
 	if len(sessionIDs) == 0 {

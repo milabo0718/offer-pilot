@@ -41,11 +41,13 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import api from "../utils/api";
+import { useJDProfileStore } from "../stores/jdProfile";
 
 export default {
   name: "JDParser",
   setup() {
     const router = useRouter();
+    const jdStore = useJDProfileStore();
     const loading = ref(false);
     const jdText = ref("");
     const fileName = ref("");
@@ -72,10 +74,7 @@ export default {
           throw new Error(response.data?.status_msg || "JD 解析失败");
         }
 
-        localStorage.setItem(
-          "jd_profile",
-          JSON.stringify(response.data.data || {})
-        );
+        jdStore.setProfile(response.data.data || {});
         ElMessage.success("JD 解析完成，正在进入 AI 面试");
         router.push("/ai-chat");
       } catch (error) {

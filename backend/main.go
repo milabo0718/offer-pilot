@@ -41,8 +41,9 @@ func startServer(host string, port int, app *App) error {
 
 	// Session相关的DAO、Service、Controller初始化
 	sessionDao := sessiondao.NewSessionDao(app.DB)
+	messageDao := messagedao.NewMessageDao(app.DB)
 
-	sessionService := sessionservice.NewSessionService(sessionDao, app.AiManager)
+	sessionService := sessionservice.NewSessionService(sessionDao, messageDao, app.AiManager)
 
 	sessionController := sessioncontroller.NewSessionController(sessionService)
 	// 初始化路由

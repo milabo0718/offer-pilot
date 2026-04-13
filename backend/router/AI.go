@@ -12,10 +12,12 @@ func AIRouter(r *gin.RouterGroup, sc *session.SessionController) {
 	{
 		r.POST("/jd/parse", sc.ParseJD)
 		r.GET("/chat/sessions", sc.GetUserSessionsByUserName)
+		r.POST("/chat/rename", sc.RenameSession)
 		r.POST("/chat/send-new-session", sc.CreateSessionAndSendMessage)
 		r.POST("/chat/send", sc.ChatSend)
 		r.POST("/chat/history", sc.ChatHistory)
 		r.POST("/chat/send-stream-new-session", sc.CreateStreamSessionAndSendMessage)
 		r.POST("/chat/send-stream", sc.ChatStreamSend)
+		r.POST("/interview/report", sc.GenerateInterviewReport)
 	}
 }
