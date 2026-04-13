@@ -1,0 +1,24 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+frontend/node_modules/
+frontend/dist/
+*.log
+
+# Go
+backend/bin/
+backend/*.exe
+backend/*.out
+
+# Local env / overrides (do not commit)
+.env
+.env.*
+backend/.env.local
+backend/config/config.local.yaml
+
+# IDE
+.vscode/
+.idea/
+docs/
