@@ -1,7 +1,6 @@
 <template>
   <div class="ai-chat-container">
-    <!-- 左侧会话列表 -->
-    <div class="session-list">
+    <div :class="['session-list', { 'is-collapsed': !isSidebarOpen }]">
       <div class="session-list-header">
         <span>会话列表</span>
         <button class="new-chat-btn" @click="createNewSession">
@@ -20,9 +19,15 @@
       </ul>
     </div>
 
-    <!-- 右侧聊天区域 -->
     <div class="chat-section">
       <div class="top-bar">
+        <button
+          class="sidebar-toggle-btn"
+          @click="isSidebarOpen = !isSidebarOpen"
+        >
+          {{ isSidebarOpen ? "◀ 沉浸模式" : "▶ 展开列表" }}
+        </button>
+
         <button class="back-btn" @click="$router.push('/menu')">← 返回</button>
         <button
           class="sync-btn"
@@ -82,14 +87,18 @@
           ref="messageInput"
           rows="1"
         ></textarea>
-        <button
-          type="button"
-          :disabled="!inputMessage.trim() || loading"
-          @click="sendMessage"
-          class="send-btn"
-        >
-          {{ loading ? "发送中..." : "发送" }}
-        </button>
+
+        <div class="input-actions-wrapper">
+          <AudioRecorder @upload-success="handleAudioSuccess" />
+          <button
+            type="button"
+            :disabled="!inputMessage.trim() || loading"
+            @click="sendMessage"
+            class="send-btn"
+          >
+            {{ loading ? "发送中..." : "发送" }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -99,10 +108,18 @@
 import { ref, nextTick, computed, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import api from "../utils/api";
+// 新增：引入录音组件
+import AudioRecorder from "../components/AudioRecorder.vue";
 
 export default {
   name: "AIChat",
+  components: {
+    AudioRecorder, // 新增：注册组件
+  },
   setup() {
+    // 新增：侧边栏状态控制
+    const isSidebarOpen = ref(true);
+
     const sessions = ref({});
     const currentSessionId = ref(null);
     const tempSession = ref(false);
@@ -113,6 +130,19 @@ export default {
     const messageInput = ref(null);
     const selectedModel = ref("1");
     const isStreaming = ref(false);
+
+    // 新增：处理语音上传成功的回调
+    const handleAudioSuccess = async (data) => {
+      // 兼容后端的字段名 text 或 Information
+      const text = data.text || data.Information || data.data?.text;
+      if (text) {
+        inputMessage.value = text;
+        ElMessage.success("语音解析成功");
+        await sendMessage(); // 自动触发发送
+      } else {
+        ElMessage.warning("未能识别出语音内容");
+      }
+    };
 
     const getJDProfileText = () => {
       try {
@@ -552,6 +582,8 @@ export default {
 
     // expose to template
     return {
+      isSidebarOpen, // 新增
+      handleAudioSuccess, // 新增
       sessions: computed(() => Object.values(sessions.value)),
       currentSessionId,
       tempSession,
@@ -574,6 +606,9 @@ export default {
 </script>
 
 <style scoped>
+/* ==========================================================
+   原汁原味的 CSS 代码（无任何删减）
+========================================================== */
 .ai-chat-container {
   height: 100vh;
   display: flex;
@@ -619,6 +654,14 @@ export default {
   box-shadow: 2px 0 20px rgba(0, 0, 0, 0.08);
   position: relative;
   z-index: 2;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; /* 新增过度动画 */
+}
+
+/* 新增：侧边栏折叠后的样式 */
+.session-list.is-collapsed {
+  width: 0 !important;
+  border-right: none;
+  opacity: 0;
 }
 
 .session-list-header {
@@ -729,6 +772,24 @@ export default {
   box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   gap: 12px;
+}
+
+/* 新增：侧边栏折叠按钮专用样式 */
+.sidebar-toggle-btn {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(79, 172, 254, 0.2);
+}
+
+.sidebar-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 172, 254, 0.3);
 }
 
 .back-btn {
@@ -922,7 +983,8 @@ export default {
   resize: none;
   border: 2px solid rgba(0, 0, 0, 0.06);
   border-radius: 12px;
-  padding: 14px 16px;
+  /* 调整右侧 padding 为录音按钮和发送按钮留出足够空间 */
+  padding: 14px 220px 14px 16px;
   font-size: 15px;
   outline: none;
   background: rgba(255, 255, 255, 0.96);
@@ -939,10 +1001,19 @@ export default {
   transform: translateY(-1px);
 }
 
-.send-btn {
+/* 新增：输入操作区包装器 */
+.input-actions-wrapper {
   position: absolute;
   right: 36px;
-  bottom: 30px;
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.send-btn {
+  /* 移除原有的 absolute 设置，让其在 flex 容器内自然排列 */
+  position: static !important;
   padding: 12px 22px;
   border: none;
   border-radius: 50px;
