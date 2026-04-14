@@ -3,6 +3,7 @@ package session
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -11,6 +12,7 @@ import (
 	"github.com/milabo0718/offer-pilot/backend/common/code"
 	"github.com/milabo0718/offer-pilot/backend/dao/session"
 	"github.com/milabo0718/offer-pilot/backend/model"
+	ragservice "github.com/milabo0718/offer-pilot/backend/service/rag"
 
 	"github.com/google/uuid"
 )
@@ -18,12 +20,25 @@ import (
 type SessionService struct {
 	sessionDao *session.SessionDao
 	aiManager  *aihelper.AIHelperManager
+	ragService *ragservice.Service
+	ragEnabled bool
+	ragTopK    int
 }
 
 func NewSessionService(sessionDao *session.SessionDao, aiManager *aihelper.AIHelperManager) *SessionService {
 	return &SessionService{
 		sessionDao: sessionDao,
 		aiManager:  aiManager,
+		ragTopK:    3,
+	}
+}
+
+// ConfigureRAGAugment 配置聊天前置检索增强，失败会自动降级为普通聊天。
+func (s *SessionService) ConfigureRAGAugment(ragSvc *ragservice.Service, enabled bool, topK int) {
+	s.ragService = ragSvc
+	s.ragEnabled = enabled
+	if topK > 0 {
+		s.ragTopK = topK
 	}
 }
 
@@ -68,7 +83,8 @@ func (s *SessionService) CreateSessionAndSendMessage(ctx context.Context, userNa
 	}
 
 	//3：生成AI回复
-	aiResponse, err_ := helper.GenerateResponse(userName, ctx, withJDProfile(userQuestion, jdProfile))
+	prompt := s.buildChatPrompt(ctx, userQuestion, jdProfile)
+	aiResponse, err_ := helper.GenerateResponse(userName, ctx, prompt)
 	if err_ != nil {
 		log.Println("CreateSessionAndSendMessage GenerateResponse error:", err_)
 		return "", "", code.AIModelFail
@@ -121,7 +137,8 @@ func (s *SessionService) StreamMessageToExistingSession(ctx context.Context, use
 		log.Println("[SSE] Flushed")
 	}
 
-	_, err_ := helper.StreamResponse(userName, ctx, cb, withJDProfile(userQuestion, jdProfile))
+	prompt := s.buildChatPrompt(ctx, userQuestion, jdProfile)
+	_, err_ := helper.StreamResponse(userName, ctx, cb, prompt)
 	if err_ != nil {
 		log.Println("StreamMessageToExistingSession StreamResponse error:", err_)
 		return code.AIModelFail
@@ -165,7 +182,8 @@ func (s *SessionService) ChatSend(ctx context.Context, userName string, sessionI
 	}
 
 	//2：生成AI回复
-	aiResponse, err_ := helper.GenerateResponse(userName, ctx, withJDProfile(userQuestion, jdProfile))
+	prompt := s.buildChatPrompt(ctx, userQuestion, jdProfile)
+	aiResponse, err_ := helper.GenerateResponse(userName, ctx, prompt)
 	if err_ != nil {
 		log.Println("ChatSend GenerateResponse error:", err_)
 		return "", code.AIModelFail
@@ -262,4 +280,37 @@ func extractJSONObject(text string) string {
 		return ""
 	}
 	return text[start : end+1]
+}
+
+// buildChatPrompt 先拼接 JD 画像，再按开关决定是否追加 RAG 召回上下文。
+func (s *SessionService) buildChatPrompt(ctx context.Context, userQuestion string, jdProfile string) string {
+	base := withJDProfile(userQuestion, jdProfile)
+
+	if !s.ragEnabled || s.ragService == nil {
+		return base
+	}
+
+	results, err := s.ragService.SearchRelevantChunks(ctx, userQuestion, s.ragTopK)
+	if err != nil {
+		log.Printf("RAG augment 检索失败，已自动降级: %v", err)
+		return base
+	}
+	if len(results) == 0 {
+		return base
+	}
+
+	var b strings.Builder
+	b.WriteString(base)
+	b.WriteString("\n\n【RAG召回上下文】\n")
+	b.WriteString("以下内容来自题库检索，请优先用于生成更贴近岗位需求的回答：\n")
+
+	for i, item := range results {
+		content := strings.TrimSpace(item.Content)
+		if len(content) > 300 {
+			content = content[:300] + "..."
+		}
+		b.WriteString(fmt.Sprintf("%d. 来源=%s 节点=%s\n%s\n", i+1, item.Metadata.SourceFile, item.Metadata.SectionOrIndex, content))
+	}
+
+	return b.String()
 }

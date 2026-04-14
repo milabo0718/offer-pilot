@@ -2,6 +2,8 @@ package config
 
 import (
 	"log"
+	"strconv"
+	"strings"
 
 	"github.com/spf13/viper"
 )
@@ -15,6 +17,7 @@ type MainConfig struct {
 type EmailConfig struct {
 	AuthCode string `mapstructure:"authCode"`
 	Email    string `mapstructure:"email"`
+	DevMode  bool   `mapstructure:"devMode"`
 }
 
 type RedisConfig struct {
@@ -49,6 +52,29 @@ type RabbitmqConfig struct {
 	RabbitmqVhost    string `mapstructure:"vhost"`
 }
 
+type RagConfig struct {
+	Enabled            bool   `mapstructure:"enabled"`
+	ChatAugmentEnabled bool   `mapstructure:"chatAugmentEnabled"`
+	ChatAugmentTopK    int    `mapstructure:"chatAugmentTopK"`
+	RedisAddr          string `mapstructure:"redisAddr"`
+	RedisPassword      string `mapstructure:"redisPassword"`
+	RedisDB            int    `mapstructure:"redisDB"`
+	IndexName          string `mapstructure:"indexName"`
+	KeyPrefix          string `mapstructure:"keyPrefix"`
+	VectorField        string `mapstructure:"vectorField"`
+	VectorDim          int    `mapstructure:"vectorDim"`
+	DistanceMetric     string `mapstructure:"distanceMetric"`
+	DefaultTopK        int    `mapstructure:"defaultTopK"`
+	MaxTopK            int    `mapstructure:"maxTopK"`
+	DefaultIngestDir   string `mapstructure:"defaultIngestDir"`
+	BatchSize          int    `mapstructure:"batchSize"`
+	EmbeddingProvider  string `mapstructure:"embeddingProvider"`
+	EmbeddingAPIKey    string `mapstructure:"embeddingAPIKey"`
+	EmbeddingBaseURL   string `mapstructure:"embeddingBaseURL"`
+	EmbeddingModelName string `mapstructure:"embeddingModelName"`
+	UseMockEmbedding   bool   `mapstructure:"useMockEmbedding"`
+}
+
 type Config struct {
 	MainConfig     `mapstructure:"mainConfig"`
 	EmailConfig    `mapstructure:"emailConfig"`
@@ -56,6 +82,28 @@ type Config struct {
 	MysqlConfig    `mapstructure:"mysqlConfig"`
 	JwtConfig      `mapstructure:"jwtConfig"`
 	RabbitmqConfig `mapstructure:"rabbitmqConfig"`
+	RagConfig      `mapstructure:"ragConfig"`
+}
+
+// RedisHostPort 解析 ragConfig.redisAddr，若为空则回退到默认本地地址。
+func (r RagConfig) RedisHostPort() (string, int) {
+	addr := strings.TrimSpace(r.RedisAddr)
+	if addr == "" {
+		return "127.0.0.1", 6379
+	}
+
+	parts := strings.Split(addr, ":")
+	if len(parts) != 2 {
+		return "127.0.0.1", 6379
+	}
+
+	host := strings.TrimSpace(parts[0])
+	port, err := strconv.Atoi(strings.TrimSpace(parts[1]))
+	if err != nil || host == "" {
+		return "127.0.0.1", 6379
+	}
+
+	return host, port
 }
 
 func InitConfig(configPath string) (*Config, error) {

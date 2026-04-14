@@ -1,0 +1,532 @@
+{
+  "generated_at": "2026-04-15T00:54:23+08:00",
+  "top_k": 5,
+  "total": 25,
+  "hit_at_1": 0.84,
+  "hit_at_3": 0.88,
+  "mrr": 0.868,
+  "rows": [
+    {
+      "id": "Q01",
+      "query": "C++ 智能指针 shared_ptr 和 unique_ptr 区别",
+      "expected_tags": [
+        "cpp"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.333235621452,
+        "tags": [
+          "cpp",
+          "java",
+          "redis",
+          "network",
+          "os"
+        ],
+        "repo": "cpp_interview",
+        "question": ":watermelon:C++11新特性"
+      }
+    },
+    {
+      "id": "Q02",
+      "query": "C++ 左值右值和 move 语义怎么理解",
+      "expected_tags": [
+        "cpp"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.202452778816,
+        "tags": [
+          "cpp",
+          "network",
+          "os"
+        ],
+        "repo": "cpp_interview",
+        "question": "左值和右值"
+      }
+    },
+    {
+      "id": "Q03",
+      "query": "手写线程池一般要考虑哪些模块",
+      "expected_tags": [
+        "cpp",
+        "os"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.360082983971,
+        "tags": [
+          "network",
+          "os",
+          "algorithm"
+        ],
+        "repo": "cpp_interview",
+        "question": "进程池和线程池"
+      }
+    },
+    {
+      "id": "Q04",
+      "query": "Linux epoll 和 select 的区别及适用场景",
+      "expected_tags": [
+        "os",
+        "network"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.219824671745,
+        "tags": [
+          "redis",
+          "os",
+          "algorithm"
+        ],
+        "repo": "cpp_interview",
+        "question": "select和epoll效率"
+      }
+    },
+    {
+      "id": "Q05",
+      "query": "进程和线程的核心区别是什么",
+      "expected_tags": [
+        "os"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.173824131489,
+        "tags": [
+          "os"
+        ],
+        "repo": "cpp_interview",
+        "question": "进程与线程的差异"
+      }
+    },
+    {
+      "id": "Q06",
+      "query": "TCP 三次握手四次挥手为什么要这样设计",
+      "expected_tags": [
+        "network"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.159011423588,
+        "tags": [
+          "redis",
+          "network"
+        ],
+        "repo": "cpp_interview",
+        "question": "☆TCP四次挥手"
+      }
+    },
+    {
+      "id": "Q07",
+      "query": "HTTP 和 HTTPS 的主要差异",
+      "expected_tags": [
+        "network"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.207696914673,
+        "tags": [
+          "network"
+        ],
+        "repo": "cpp_interview",
+        "question": "https和http区别"
+      }
+    },
+    {
+      "id": "Q08",
+      "query": "Redis 为什么快，从 IO 模型到数据结构说一下",
+      "expected_tags": [
+        "redis",
+        "os"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.287998080254,
+        "tags": [
+          "redis",
+          "network",
+          "os",
+          "algorithm"
+        ],
+        "repo": "cpp_interview",
+        "question": "Redis的数据结构讲一讲 + 使用场景"
+      }
+    },
+    {
+      "id": "Q09",
+      "query": "Redis 缓存穿透、击穿、雪崩怎么治理",
+      "expected_tags": [
+        "redis"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.174588561058,
+        "tags": [
+          "java",
+          "redis",
+          "os"
+        ],
+        "repo": "java-eight-part",
+        "question": "缓存雪崩"
+      }
+    },
+    {
+      "id": "Q10",
+      "query": "Redis 持久化 RDB 和 AOF 的区别",
+      "expected_tags": [
+        "redis"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.144889712334,
+        "tags": [
+          "redis",
+          "distributed",
+          "network",
+          "os",
+          "algorithm"
+        ],
+        "repo": "cpp_interview",
+        "question": "Redis持久化"
+      }
+    },
+    {
+      "id": "Q11",
+      "query": "MySQL InnoDB 索引失效的常见原因",
+      "expected_tags": [
+        "mysql"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.335410058498,
+        "tags": [
+          "redis",
+          "mysql",
+          "network",
+          "os",
+          "algorithm"
+        ],
+        "repo": "cpp_interview",
+        "question": "MYSQL索引和算法原理"
+      }
+    },
+    {
+      "id": "Q12",
+      "query": "MySQL 事务隔离级别和 MVCC 的关系",
+      "expected_tags": [
+        "mysql"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.269367814064,
+        "tags": [
+          "mysql",
+          "network",
+          "os"
+        ],
+        "repo": "interview-baguwen",
+        "question": "Reference"
+      }
+    },
+    {
+      "id": "Q13",
+      "query": "Kafka 怎么保证消息不丢和有序",
+      "expected_tags": [
+        "mq",
+        "distributed"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.26697576046,
+        "tags": [
+          "java",
+          "redis",
+          "mq",
+          "distributed",
+          "network",
+          "os"
+        ],
+        "repo": "java-eight-part",
+        "question": "认识Kafka"
+      }
+    },
+    {
+      "id": "Q14",
+      "query": "RabbitMQ 消息堆积如何处理",
+      "expected_tags": [
+        "mq"
+      ],
+      "hit_at_1": false,
+      "hit_at_3": false,
+      "mrr": 0,
+      "evidence": {
+        "rank": 0,
+        "score": 0,
+        "tags": null,
+        "repo": "",
+        "question": ""
+      }
+    },
+    {
+      "id": "Q15",
+      "query": "分布式系统里 CAP 和一致性怎么取舍",
+      "expected_tags": [
+        "distributed"
+      ],
+      "hit_at_1": false,
+      "hit_at_3": false,
+      "mrr": 0.2,
+      "evidence": {
+        "rank": 5,
+        "score": 0.425332307816,
+        "tags": [
+          "java",
+          "distributed"
+        ],
+        "repo": "java-eight-part",
+        "question": "采样"
+      }
+    },
+    {
+      "id": "Q16",
+      "query": "服务注册发现有哪些方案，ZK 和 Nacos 区别",
+      "expected_tags": [
+        "distributed"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.353965044022,
+        "tags": [
+          "java",
+          "distributed",
+          "os"
+        ],
+        "repo": "java-eight-part",
+        "question": "服务注册"
+      }
+    },
+    {
+      "id": "Q17",
+      "query": "Go goroutine 调度模型 GPM 是什么",
+      "expected_tags": [
+        "golang",
+        "os"
+      ],
+      "hit_at_1": false,
+      "hit_at_3": false,
+      "mrr": 0,
+      "evidence": {
+        "rank": 0,
+        "score": 0,
+        "tags": null,
+        "repo": "",
+        "question": ""
+      }
+    },
+    {
+      "id": "Q18",
+      "query": "Go channel 和 mutex 在并发控制上怎么选",
+      "expected_tags": [
+        "golang"
+      ],
+      "hit_at_1": false,
+      "hit_at_3": true,
+      "mrr": 0.5,
+      "evidence": {
+        "rank": 2,
+        "score": 0.341685891151,
+        "tags": [
+          "golang"
+        ],
+        "repo": "interview-baguwen",
+        "question": "面试题"
+      }
+    },
+    {
+      "id": "Q19",
+      "query": "Java 内存模型 JMM 的可见性和有序性",
+      "expected_tags": [
+        "java"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.294184863567,
+        "tags": [
+          "java",
+          "redis",
+          "distributed",
+          "os",
+          "algorithm"
+        ],
+        "repo": "java-eight-part",
+        "question": "3.3. 线程间通信"
+      }
+    },
+    {
+      "id": "Q20",
+      "query": "CAS 的 ABA 问题怎么解决",
+      "expected_tags": [
+        "java"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.240101218224,
+        "tags": [
+          "java"
+        ],
+        "repo": "java-eight-part",
+        "question": "4.1. 典型 ABA 问题"
+      }
+    },
+    {
+      "id": "Q21",
+      "query": "设计模式里单例模式有哪些线程安全写法",
+      "expected_tags": [
+        "cpp",
+        "java"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.283791542053,
+        "tags": [
+          "cpp",
+          "java",
+          "os"
+        ],
+        "repo": "cpp_interview",
+        "question": "懒汉式"
+      }
+    },
+    {
+      "id": "Q22",
+      "query": "快排和归并排序复杂度与稳定性对比",
+      "expected_tags": [
+        "algorithm"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.216770768166,
+        "tags": [
+          "golang",
+          "algorithm"
+        ],
+        "repo": "cpp_interview",
+        "question": "为什么都在用快排而不是归并，堆？"
+      }
+    },
+    {
+      "id": "Q23",
+      "query": "二分查找模板在什么场景容易写错",
+      "expected_tags": [
+        "algorithm"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.266480743885,
+        "tags": [
+          "algorithm"
+        ],
+        "repo": "cpp_interview",
+        "question": "**插值查找**"
+      }
+    },
+    {
+      "id": "Q24",
+      "query": "死锁发生的必要条件和排查思路",
+      "expected_tags": [
+        "os"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.242891669273,
+        "tags": [
+          "os",
+          "algorithm"
+        ],
+        "repo": "cpp_interview",
+        "question": "处理死锁"
+      }
+    },
+    {
+      "id": "Q25",
+      "query": "面试中如何回答为什么 Redis 用跳表",
+      "expected_tags": [
+        "redis"
+      ],
+      "hit_at_1": true,
+      "hit_at_3": true,
+      "mrr": 1,
+      "evidence": {
+        "rank": 1,
+        "score": 0.299493551254,
+        "tags": [
+          "redis",
+          "network",
+          "os",
+          "algorithm"
+        ],
+        "repo": "cpp_interview",
+        "question": "为何Redis使用跳表而非红黑树实现SortedSet？"
+      }
+    }
+  ]
+}

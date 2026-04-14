@@ -6,6 +6,7 @@ mainConfig:
 emailConfig:
   authcode: "vqqocpwnzmzlbdhb"
   email: "1019426464@qq.com"
+  devMode: true
 
 redisConfig:
   host: "127.0.0.1"
@@ -17,9 +18,9 @@ redisConfig:
 mysqlConfig:
   host: "127.0.0.1"
   port: 3306
-  user: "root"
-  password: "lwr2005718"
-  databaseName: "offer-pilot"
+  user: "offerpilot"
+  password: "offerpilot123"
+  databaseName: "offer_pilot"
   charset: "utf8mb4"
 
 jwtConfig:
@@ -29,8 +30,30 @@ jwtConfig:
   key: "OfferPilot"
 
 rabbitmqConfig:
-  host: "192.168.175.161"
+  host: "127.0.0.1"
   port: 5672
-  username: "admi"
-  password: "123456"
+  username: "guest"
+  password: "guest"
   vhost: "/"
+
+ragConfig:
+  enabled: true
+  chatAugmentEnabled: true
+  chatAugmentTopK: 3
+  redisAddr: "127.0.0.1:6379"
+  redisPassword: ""
+  redisDB: 0
+  indexName: "idx:offerpilot:chunks"
+  keyPrefix: "rag:chunk:"
+  vectorField: "vector"
+  vectorDim: 1024
+  distanceMetric: "COSINE"
+  defaultTopK: 5
+  maxTopK: 20
+  defaultIngestDir: "./examples/rag_data"
+  batchSize: 10
+  embeddingProvider: "openai-compatible"
+  embeddingAPIKey: ""
+  embeddingBaseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  embeddingModelName: "text-embedding-v3"
+  useMockEmbedding: false

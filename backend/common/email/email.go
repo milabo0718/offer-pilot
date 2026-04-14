@@ -2,6 +2,7 @@ package email
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/milabo0718/offer-pilot/backend/config"
 
@@ -18,6 +19,7 @@ type EmailSender struct {
 	authCode string
 	host     string
 	port     int
+	devMode  bool
 }
 
 func NewEmailSender(conf *config.EmailConfig) *EmailSender {
@@ -26,10 +28,17 @@ func NewEmailSender(conf *config.EmailConfig) *EmailSender {
 		authCode: conf.AuthCode,
 		host:     "smtp.qq.com",
 		port:     587,
+		devMode:  conf.DevMode,
 	}
 }
 
 func (e *EmailSender) SendCaptcha(email, code, msg string) error {
+	// DEV 模式下不发真实邮件，只打印日志，避免测试数据触发退信。
+	if e.devMode {
+		log.Printf("[Email][DEV] skip send to=%s subject=%s body=%s %s", email, "来自offerpilot的信息", msg, code)
+		return nil
+	}
+
 	m := gomail.NewMessage()
 
 	// 发件人

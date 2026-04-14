@@ -1,12 +1,13 @@
 package router
 
 import (
+	ragcontroller "github.com/milabo0718/offer-pilot/backend/controller/rag"
 	"github.com/milabo0718/offer-pilot/backend/controller/session"
 
 	"github.com/gin-gonic/gin"
 )
 
-func AIRouter(r *gin.RouterGroup, sc *session.SessionController) {
+func AIRouter(r *gin.RouterGroup, sc *session.SessionController, rc *ragcontroller.RAGController) {
 
 	// 聊天相关接口
 	{
@@ -18,4 +19,7 @@ func AIRouter(r *gin.RouterGroup, sc *session.SessionController) {
 		r.POST("/chat/send-stream-new-session", sc.CreateStreamSessionAndSendMessage)
 		r.POST("/chat/send-stream", sc.ChatStreamSend)
 	}
+
+	// RAG 相关接口
+	RAGRouter(r, rc)
 }

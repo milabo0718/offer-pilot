@@ -1,0 +1,64 @@
+{
+  "input_dir": "/home/steve/offer-pilot/backend/examples/rag_data_cleaned",
+  "output_file": "/home/steve/offer-pilot/backend/examples/rag_data_structured_strict/qa_dataset.json",
+  "source_markdown": 94,
+  "structured_items": 603,
+  "skipped_empty": 0,
+  "difficulty_count": {
+    "easy": 243,
+    "hard": 163,
+    "medium": 197
+  },
+  "top_tags": [
+    {
+      "tag": "os",
+      "count": 395
+    },
+    {
+      "tag": "java",
+      "count": 215
+    },
+    {
+      "tag": "network",
+      "count": 194
+    },
+    {
+      "tag": "cpp",
+      "count": 181
+    },
+    {
+      "tag": "redis",
+      "count": 175
+    },
+    {
+      "tag": "algorithm",
+      "count": 157
+    },
+    {
+      "tag": "golang",
+      "count": 90
+    },
+    {
+      "tag": "mysql",
+      "count": 66
+    },
+    {
+      "tag": "distributed",
+      "count": 63
+    },
+    {
+      "tag": "general",
+      "count": 22
+    },
+    {
+      "tag": "mq",
+      "count": 17
+    }
+  ],
+  "per_repo_item_count": {
+    "Interview": 66,
+    "cpp_interview": 343,
+    "interview-baguwen": 32,
+    "java-eight-part": 162
+  }
+}

@@ -1,0 +1,1331 @@
+{
+  "profile": "full",
+  "output_dir": "/home/steve/offer-pilot/backend/examples/rag_data_cleaned_full",
+  "manifest": "/home/steve/offer-pilot/backend/examples/rag_data_cleaned_full/_meta/manifest.json",
+  "total_input_files": 188,
+  "total_output_files": 180,
+  "skipped_too_short": 5,
+  "skipped_read_error": 0,
+  "skipped_clean_error": 3,
+  "per_repo_input_count": {
+    "Interview": 109,
+    "cpp_interview": 17,
+    "interview-baguwen": 27,
+    "java-eight-part": 35
+  },
+  "per_repo_output_count": {
+    "Interview": 103,
+    "cpp_interview": 16,
+    "interview-baguwen": 26,
+    "java-eight-part": 35
+  },
+  "items": [
+    {
+      "repo": "Interview",
+      "path": "CONTRIBUTORS.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_CONTRIBUTORS.md",
+      "rune_count": 1310
+    },
+    {
+      "repo": "Interview",
+      "path": "README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_README.md",
+      "rune_count": 240
+    },
+    {
+      "repo": "Interview",
+      "path": "SUMMARY.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_SUMMARY.md",
+      "rune_count": 1977
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/JavaScript.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_JavaScript.md",
+      "rune_count": 9971
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Others/NextNodeInOrderTree.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Others_NextNodeInOrderTree.md",
+      "rune_count": 771
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Queue/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Queue_README.md",
+      "rune_count": 1165
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_README.md",
+      "rune_count": 800
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Stack/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Stack_README.md",
+      "rune_count": 743
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/Binary Search.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_Binary_Search.md",
+      "rune_count": 289
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/DFS和BFS.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_DFS_BFS.md",
+      "rune_count": 3929
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/Data Structure and Algorthim Review.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_Data_Structure_and_Algorthim_Review.md",
+      "rune_count": 1378
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/Dynamic Programming.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_Dynamic_Programming.md",
+      "rune_count": 311
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/Java各种类型的转换.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_Java.md",
+      "rune_count": 5389
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/LinkedList技巧.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_LinkedList.md",
+      "rune_count": 1788
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/Recusrion \u0026 BackTracking.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_Recusrion_BackTracking.md",
+      "rune_count": 4334
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/backtracking思路.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_backtracking.md",
+      "rune_count": 7129
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/delete_node_in_a_linked_list问题.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_delete_node_in_a_linked_list.md",
+      "rune_count": 1450
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/python的各种pass.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_python_pass.md",
+      "rune_count": 1375
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/slide_windows_template.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_slide_windows_template.md",
+      "rune_count": 6763
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/union_find.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_union_find.md",
+      "rune_count": 6541
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/二叉树的一些操作.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization.md",
+      "rune_count": 6612
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/位运算.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization__2.md",
+      "rune_count": 447
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/全排列算法.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization__3.md",
+      "rune_count": 3677
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/八排序.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization__4.md",
+      "rune_count": 9012
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/子集合问题.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization__5.md",
+      "rune_count": 1608
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/总结.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization__6.md",
+      "rune_count": 3592
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/组合问题.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization__7.md",
+      "rune_count": 1065
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/递归_recursion.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization_recursion.md",
+      "rune_count": 618
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/DataStructure/Summarization/面试确认题目细节问题.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_DataStructure_Summarization__8.md",
+      "rune_count": 201
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Algorithm/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Algorithm_README.md",
+      "rune_count": 3275
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/GitHub/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_GitHub_README.md",
+      "rune_count": 2699
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_README.md",
+      "rune_count": 5539
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/featured/home-credit-default-risk/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_featured_home-credit-default-risk_README.md",
+      "rune_count": 632
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/featured/mercari-price-suggestion-challenge/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_featured_mercari-price-suggestion-challenge_README.md",
+      "rune_count": 1889
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/digit-recognizer/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_digit-recognizer_README.md",
+      "rune_count": 20882
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/digit-recognizer/cnn算法描述.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_digit-recognizer_cnn.md",
+      "rune_count": 8517
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/digit-recognizer/knn算法描述.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_digit-recognizer_knn.md",
+      "rune_count": 8076
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/digit-recognizer/svm算法描述.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_digit-recognizer_svm.md",
+      "rune_count": 10763
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/digit-recognizer/神经网络算法描述.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_digit-recognizer.md",
+      "rune_count": 1731
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/digit-recognizer/随机森林算法描述.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_digit-recognizer__2.md",
+      "rune_count": 2439
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/house-price/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_house-price_README.md",
+      "rune_count": 22565
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/house-price/house-price.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_house-price_house-price.md",
+      "rune_count": 5601
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/titanic/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_titanic_README.md",
+      "rune_count": 14247
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/titanic/titanic-data-science-solutions.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_titanic_titanic-data-science-solutions.md",
+      "rune_count": 35586
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/titanic/titanic_yy.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_titanic_titanic_yy.md",
+      "rune_count": 13305
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/word2vec-nlp-tutorial/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_word2vec-nlp-tutorial_README.md",
+      "rune_count": 36854
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/word2vec-nlp-tutorial/官方教程翻译/0.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_word2vec-nlp-tutorial_0.md",
+      "rune_count": 4083
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/word2vec-nlp-tutorial/官方教程翻译/1.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_word2vec-nlp-tutorial_1.md",
+      "rune_count": 11129
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/word2vec-nlp-tutorial/官方教程翻译/2.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_word2vec-nlp-tutorial_2.md",
+      "rune_count": 9072
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/word2vec-nlp-tutorial/官方教程翻译/3.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_word2vec-nlp-tutorial_3.md",
+      "rune_count": 9480
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/getting-started/word2vec-nlp-tutorial/官方教程翻译/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_getting-started_word2vec-nlp-tutorial_README__2.md",
+      "rune_count": 282
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/baseline.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_baseline.md",
+      "rune_count": 5438
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/cactus-identification-ensemble-transfer-learning.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_cactus-identification-ensemble-transfer-learning.md",
+      "rune_count": 91853
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/cactus-identification-fastai-v1-0-46-ensemble.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_cactus-identification-fastai-v1-0-46-ensemble.md",
+      "rune_count": 3904
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/cactus-identification-with-pytorch.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_cactus-identification-with-pytorch.md",
+      "rune_count": 10758
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/cnn-model-with-keras.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_cnn-model-with-keras.md",
+      "rune_count": 15864
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/data-augmentation-vgg16-cnn.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_data-augmentation-vgg16-cnn.md",
+      "rune_count": 10846
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/detecting-cactus-with-kekas.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_detecting-cactus-with-kekas.md",
+      "rune_count": 17123
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/fast-fastai-with-condensenet.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_fast-fastai-with-condensenet.md",
+      "rune_count": 9726
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/keras-transfer-vgg16.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_keras-transfer-vgg16.md",
+      "rune_count": 94117
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/pca-mlp-vs-pca-cnn-focal-loss-resnet50-vs-vgg16.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_pca-mlp-vs-pca-cnn-focal-loss-resnet50-vs-vgg16.md",
+      "rune_count": 619568
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/simple-cnn-on-pytorch-for-beginers.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_simple-cnn-on-pytorch-for-beginers.md",
+      "rune_count": 10507
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/simple-cnn.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_simple-cnn.md",
+      "rune_count": 18680
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/simple-fastai-exercise.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_simple-fastai-exercise.md",
+      "rune_count": 2559
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/aerial-cactus-identification/xdstudent.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_aerial-cactus-identification_xdstudent.md",
+      "rune_count": 17000
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/dogs-vs-cats/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_dogs-vs-cats_README.md",
+      "rune_count": 2049
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/dogs-vs-cats/kernel.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_dogs-vs-cats_kernel.md",
+      "rune_count": 5651
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/competitions/playground/leaf-classification/leaf-classification-competition-1st-place-winners-interview-ivan-sosnovik.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_competitions_playground_leaf-classification_leaf-classification-competition-1st-place-winners-interview-ivan-sosnovik.md",
+      "rune_count": 3118
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/kernel.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_kernel.md",
+      "rune_count": 251
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/embeddings/README.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_embeddings_README.md",
+      "rune_count": 30213
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intermediate-machine-learning/1.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intermediate-machine-learning_1.md",
+      "rune_count": 1098
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intermediate-machine-learning/2.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intermediate-machine-learning_2.md",
+      "rune_count": 4091
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intermediate-machine-learning/3.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intermediate-machine-learning_3.md",
+      "rune_count": 6542
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intermediate-machine-learning/4.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intermediate-machine-learning_4.md",
+      "rune_count": 3549
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intermediate-machine-learning/5.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intermediate-machine-learning_5.md",
+      "rune_count": 2964
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intro-to-machine-learning/1.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intro-to-machine-learning_1.md",
+      "rune_count": 1199
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intro-to-machine-learning/2.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intro-to-machine-learning_2.md",
+      "rune_count": 1252
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intro-to-machine-learning/3.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intro-to-machine-learning_3.md",
+      "rune_count": 4018
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intro-to-machine-learning/4.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intro-to-machine-learning_4.md",
+      "rune_count": 2991
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intro-to-machine-learning/5.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intro-to-machine-learning_5.md",
+      "rune_count": 3100
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intro-to-machine-learning/6.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intro-to-machine-learning_6.md",
+      "rune_count": 2307
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/Kaggle/learn/intro-to-machine-learning/7.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_Kaggle_learn_intro-to-machine-learning_7.md",
+      "rune_count": 939
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/kaggle-quickstart.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_kaggle-quickstart.md",
+      "rune_count": 1837
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/kaggle-start.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_kaggle-start.md",
+      "rune_count": 4199
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/writeup-list.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs_writeup-list.md",
+      "rune_count": 5998
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/面试求职/学历.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs.md",
+      "rune_count": 2431
+    },
+    {
+      "repo": "Interview",
+      "path": "docs/面试求职/简历.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_docs__2.md",
+      "rune_count": 798
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/aiqiyi.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_aiqiyi.md",
+      "rune_count": 1065
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/baicizhanxiaomi.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_baicizhanxiaomi.md",
+      "rune_count": 2802
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/didi.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_didi.md",
+      "rune_count": 1907
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/glodon.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_glodon.md",
+      "rune_count": 2562
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/huaweiliuxuesheng.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_huaweiliuxuesheng.md",
+      "rune_count": 1354
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/indeed_tokyo.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_indeed_tokyo.md",
+      "rune_count": 3024
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/kuaishou.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_kuaishou.md",
+      "rune_count": 3079
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/liulishuo.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_liulishuo.md",
+      "rune_count": 750
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/pdd.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_pdd.md",
+      "rune_count": 2679
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/qqchangE_problem.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_qqchangE_problem.md",
+      "rune_count": 878
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/shopee.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_shopee.md",
+      "rune_count": 1443
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/sohuchangyouweipinhui.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_sohuchangyouweipinhui.md",
+      "rune_count": 461
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/tecent.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_tecent.md",
+      "rune_count": 1791
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/vmware.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_vmware.md",
+      "rune_count": 1295
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/xunlei.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_xunlei.md",
+      "rune_count": 927
+    },
+    {
+      "repo": "Interview",
+      "path": "src/其他/zhaoyincreditcard.md",
+      "license": "CC BY-NC-SA 4.0",
+      "output_file": "Interview_src_zhaoyincreditcard.md",
+      "rune_count": 960
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "README.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_README.md",
+      "rune_count": 677
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "cache/README.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_cache_README.md",
+      "rune_count": 5470
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "database/indexes.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_database_indexes.md",
+      "rune_count": 5204
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "database/transaction.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_database_transaction.md",
+      "rune_count": 7602
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "gc/README.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_gc_README.md",
+      "rune_count": 848
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "gc/algorithm.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_gc_algorithm.md",
+      "rune_count": 7039
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "gc/g1.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_gc_g1.md",
+      "rune_count": 6116
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "gc/java_cms.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_gc_java_cms.md",
+      "rune_count": 9234
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "golang/README.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_golang_README.md",
+      "rune_count": 514
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "golang/goroutine.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_golang_goroutine.md",
+      "rune_count": 2932
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "golang/mutex.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_golang_mutex.md",
+      "rune_count": 1377
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "microservice/README.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_microservice_README.md",
+      "rune_count": 74
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "microservice/availability.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_microservice_availability.md",
+      "rune_count": 236
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "microservice/general.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_microservice_general.md",
+      "rune_count": 3596
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "microservice/timeout.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_microservice_timeout.md",
+      "rune_count": 5858
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "mq/Kafka.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_mq_Kafka.md",
+      "rune_count": 12449
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "mq/README.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_mq_README.md",
+      "rune_count": 6798
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "pattern/README.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_pattern_README.md",
+      "rune_count": 890
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "redis/availability.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_redis_availability.md",
+      "rune_count": 7464
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "redis/data_structure.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_redis_data_structure.md",
+      "rune_count": 4580
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "redis/expired.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_redis_expired.md",
+      "rune_count": 1031
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "redis/io_model.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_redis_io_model.md",
+      "rune_count": 1279
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "redis/persistent.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_redis_persistent.md",
+      "rune_count": 5184
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "redis/pipeline.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_redis_pipeline.md",
+      "rune_count": 4334
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "sharding/README.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_sharding_README.md",
+      "rune_count": 1033
+    },
+    {
+      "repo": "interview-baguwen",
+      "path": "sharding/rewrite_sql.md",
+      "license": "README 限制非商业使用",
+      "output_file": "interview-baguwen_sharding_rewrite_sql.md",
+      "rune_count": 346
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "README.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_README.md",
+      "rune_count": 9840
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "_sidebar.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_sidebar.md",
+      "rune_count": 679
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/distributed/13张图彻底搞懂分布式系统服务注册与发现原理.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_distributed_13.md",
+      "rune_count": 5090
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/distributed/原来10张图就可以搞懂分布式链路追踪系统原理.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_distributed_10.md",
+      "rune_count": 4707
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/distributed/用大白话给你解释Zookeeper的选举机制.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_distributed_Zookeeper.md",
+      "rune_count": 3935
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/it-hot/鸿蒙OS尖刀武器之分布式软总线技术.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_it-hot_OS.md",
+      "rune_count": 3115
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/annotation/想自己写框架不会写Java注解可不行.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_annotation_Java.md",
+      "rune_count": 4316
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/base/Java基础入门80问.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_base_Java_80.md",
+      "rune_count": 61631
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/java8/Java8函数式接口和Lambda表达式你真的会了吗.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_java8_Java8_Lambda.md",
+      "rune_count": 3604
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/java8/使用Java8 Optional类优雅解决空指针问题.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_java8_Java8_Optional.md",
+      "rune_count": 5495
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/java8/包学会，教你用Java函数式编程重构烂代码.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_java8_Java.md",
+      "rune_count": 4431
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/java8/请避开Stream流式编程常见的坑.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_java8_Stream.md",
+      "rune_count": 5988
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/juc/倒计时计数CountDownLatch.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_juc_CountDownLatch.md",
+      "rune_count": 3005
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/juc/内存泄露的原因找到了，罪魁祸首居然是Java TheadLocal.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_juc_Java_TheadLocal.md",
+      "rune_count": 7393
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/juc/十张图告诉你多线程那些破事.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_juc.md",
+      "rune_count": 3707
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/juc/图解Java中那18 把锁.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_juc_Java_18.md",
+      "rune_count": 5609
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/juc/面试官：说说Atomic原子类的实现原理.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_juc_Atomic.md",
+      "rune_count": 5214
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/juc/面试官：说说什么是Java内存模型？.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_juc_Java.md",
+      "rune_count": 4235
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/juc/面试必问的CAS原理你会了吗.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_juc_CAS.md",
+      "rune_count": 3421
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/java/roadmap/2021 版最新Java 学习路线图（持续刷新）.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_java_roadmap_2021_Java.md",
+      "rune_count": 13361
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/mq/Kafka支持百万级TPS的秘密都藏在这里.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_mq_Kafka_TPS.md",
+      "rune_count": 4184
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/mq/刨根问底，kafka到底会不会丢消息.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_mq_kafka.md",
+      "rune_count": 3480
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/redis/Redis 数据结构和常用命令速记.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_redis_Redis.md",
+      "rune_count": 1599
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/redis/Redis核心技术知识点全集.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_redis_Redis__2.md",
+      "rune_count": 29434
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/redis/一张图搞懂Redis缓存雪崩、缓存穿透、缓存击穿.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_redis_Redis__3.md",
+      "rune_count": 3555
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/redis/一次性将Redis RDB持久化和AOF持久化讲透.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_redis_Redis_RDB_AOF.md",
+      "rune_count": 5112
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/redis/看完这20道Redis面试题，阿里面试可以约起来了.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_redis_20_Redis.md",
+      "rune_count": 22791
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/redis/经理让我复盘上次Redis缓存雪崩事故.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_redis_Redis__4.md",
+      "rune_count": 1450
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/redis/记一次由Redis分布式锁造成的重大事故，避免以后踩坑！.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_redis_Redis__5.md",
+      "rune_count": 6344
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/redis/还在用单机版？教你用Docker+Redis搭建主从复制多实例.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_redis_Docker_Redis.md",
+      "rune_count": 3227
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/redis/面试官再问Redis事务把这篇文章扔给他.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_redis_Redis__6.md",
+      "rune_count": 3751
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/redis/高并发场景下，到底先更新缓存还是先更新数据库？.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_redis.md",
+      "rune_count": 2954
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/tools/git/保姆级Git教程，10000字详解.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_tools_git_Git_10000.md",
+      "rune_count": 15071
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/tools/推荐十款精选IntelliJIdea插件.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_tools_IntelliJIdea.md",
+      "rune_count": 1919
+    },
+    {
+      "repo": "java-eight-part",
+      "path": "docs/tools/高效学习资源网站汇总.md",
+      "license": "README 声明转载需授权",
+      "output_file": "java-eight-part_docs_tools.md",
+      "rune_count": 1899
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "C++.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview_C.md",
+      "rune_count": 106485
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "README.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview_README.md",
+      "rune_count": 3464
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "leetcode刷题.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview_leetcode.md",
+      "rune_count": 162454
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "linux服务器.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview_linux.md",
+      "rune_count": 36150
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "书籍笔记/c++语言核心及进阶.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview_c.md",
+      "rune_count": 33809
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "书籍笔记/linux高性能服务器.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview_linux__2.md",
+      "rune_count": 78920
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "书籍笔记/操作系统.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview.md",
+      "rune_count": 27758
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "书籍笔记/汇编语言.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview__2.md",
+      "rune_count": 5104
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "其他技术栈.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview__3.md",
+      "rune_count": 53134
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "手撕代码.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview__4.md",
+      "rune_count": 38833
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "操作系统.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview__5.md",
+      "rune_count": 65147
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "数据库.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview__6.md",
+      "rune_count": 31112
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "数据结构及算法.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview__7.md",
+      "rune_count": 41846
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "离谱问题.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview__8.md",
+      "rune_count": 23541
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "计算机网络.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview__9.md",
+      "rune_count": 39690
+    },
+    {
+      "repo": "cpp_interview",
+      "path": "设计模式.md",
+      "license": "README 标注 MIT（仓库未见 LICENSE 文件）",
+      "output_file": "cpp_interview__10.md",
+      "rune_count": 15003
+    }
+  ],
+  "skipped_files": {
+    "clean_error": [
+      {
+        "repo": "Interview",
+        "path": "docs/Algorithm/ProjectCornerstone/ApproveLetter.md",
+        "license": "CC BY-NC-SA 4.0"
+      },
+      {
+        "repo": "Interview",
+        "path": "src/其他/58.md",
+        "license": "CC BY-NC-SA 4.0"
+      },
+      {
+        "repo": "Interview",
+        "path": "src/其他/times.md",
+        "license": "CC BY-NC-SA 4.0"
+      }
+    ],
+    "read_error": [],
+    "too_short": [
+      {
+        "repo": "Interview",
+        "path": "docs/矩阵求导.md",
+        "license": "CC BY-NC-SA 4.0"
+      },
+      {
+        "repo": "Interview",
+        "path": "docs/面试求职/简历范文.md",
+        "license": "CC BY-NC-SA 4.0"
+      },
+      {
+        "repo": "Interview",
+        "path": "src/其他/data_structure.md",
+        "license": "CC BY-NC-SA 4.0"
+      },
+      {
+        "repo": "interview-baguwen",
+        "path": "database/README.md",
+        "license": "README 限制非商业使用"
+      },
+      {
+        "repo": "cpp_interview",
+        "path": "书籍笔记/设计模式.md",
+        "license": "README 标注 MIT（仓库未见 LICENSE 文件）"
+      }
+    ]
+  }
+}

@@ -23,6 +23,11 @@ const (
 	AIModelNotFind    Code = 5001
 	AIModelCannotOpen Code = 5002
 	AIModelFail       Code = 5003
+	RAGIndexInitFail  Code = 5101
+	RAGEmbeddingFail  Code = 5102
+	RAGStoreFail      Code = 5103
+	RAGSearchFail     Code = 5104
+	RAGIngestFail     Code = 5105
 )
 
 var msg = map[Code]string{
@@ -46,6 +51,11 @@ var msg = map[Code]string{
 	AIModelNotFind:    "模型不存在",
 	AIModelCannotOpen: "无法打开模型",
 	AIModelFail:       "模型运行失败",
+	RAGIndexInitFail:  "RAG索引初始化失败",
+	RAGEmbeddingFail:  "RAG向量化失败",
+	RAGStoreFail:      "RAG入库失败",
+	RAGSearchFail:     "RAG检索失败",
+	RAGIngestFail:     "RAG数据处理失败",
 }
 
 func (code Code) Code() int64 {

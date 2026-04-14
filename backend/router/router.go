@@ -1,6 +1,7 @@
 package router
 
 import (
+	ragcontroller "github.com/milabo0718/offer-pilot/backend/controller/rag"
 	"github.com/milabo0718/offer-pilot/backend/controller/session"
 	"github.com/milabo0718/offer-pilot/backend/controller/user"
 
@@ -9,7 +10,7 @@ import (
 	"github.com/milabo0718/offer-pilot/backend/utils/myjwt"
 )
 
-func InitRouter(userController *user.UserController, sessionController *session.SessionController, jwtManager *myjwt.JWTManager) *gin.Engine {
+func InitRouter(userController *user.UserController, sessionController *session.SessionController, ragController *ragcontroller.RAGController, jwtManager *myjwt.JWTManager) *gin.Engine {
 
 	r := gin.Default()
 	enterRouter := r.Group("/api/v1")
@@ -20,7 +21,7 @@ func InitRouter(userController *user.UserController, sessionController *session.
 	{
 		aigroup := enterRouter.Group("/ai")
 		aigroup.Use(jwt.Auth(jwtManager))
-		AIRouter(aigroup, sessionController)
+		AIRouter(aigroup, sessionController, ragController)
 	}
 	return r
 }
