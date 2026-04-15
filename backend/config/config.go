@@ -52,6 +52,22 @@ type RabbitmqConfig struct {
 	RabbitmqVhost    string `mapstructure:"vhost"`
 }
 
+// TTSConfig 阿里云百炼 TTS（CosyVoice）配置
+type TTSConfig struct {
+	APIKey     string `mapstructure:"apiKey"`
+	ModelName  string `mapstructure:"modelName"`
+	Voice      string `mapstructure:"voice"`
+	Format     string `mapstructure:"format"`
+	SampleRate int    `mapstructure:"sampleRate"`
+}
+
+// STTConfig 阿里云百炼 STT（Paraformer）配置
+type STTConfig struct {
+	APIKey    string `mapstructure:"apiKey"`
+	ModelName string `mapstructure:"modelName"` // 默认 paraformer-v2
+	Language  string `mapstructure:"language"`  // 默认 zh
+}
+
 type RagConfig struct {
 	Enabled            bool   `mapstructure:"enabled"`
 	ChatAugmentEnabled bool   `mapstructure:"chatAugmentEnabled"`
@@ -83,6 +99,8 @@ type Config struct {
 	JwtConfig      `mapstructure:"jwtConfig"`
 	RabbitmqConfig `mapstructure:"rabbitmqConfig"`
 	RagConfig      `mapstructure:"ragConfig"`
+	TTSConfig      `mapstructure:"ttsConfig"`
+	STTConfig      `mapstructure:"sttConfig"`
 }
 
 // RedisHostPort 解析 ragConfig.redisAddr，若为空则回退到默认本地地址。

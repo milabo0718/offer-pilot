@@ -12,9 +12,13 @@ import (
 	"github.com/milabo0718/offer-pilot/backend/common/rag/embedder"
 	"github.com/milabo0718/offer-pilot/backend/common/rag/store"
 	"github.com/milabo0718/offer-pilot/backend/common/redis"
+	commonstt "github.com/milabo0718/offer-pilot/backend/common/stt"
+	commontts "github.com/milabo0718/offer-pilot/backend/common/tts"
 	"github.com/milabo0718/offer-pilot/backend/config"
 	ragcontroller "github.com/milabo0718/offer-pilot/backend/controller/rag"
 	sessioncontroller "github.com/milabo0718/offer-pilot/backend/controller/session"
+	sttcontroller "github.com/milabo0718/offer-pilot/backend/controller/stt"
+	ttscontroller "github.com/milabo0718/offer-pilot/backend/controller/tts"
 	usercontroller "github.com/milabo0718/offer-pilot/backend/controller/user"
 	messagedao "github.com/milabo0718/offer-pilot/backend/dao/message"
 	sessiondao "github.com/milabo0718/offer-pilot/backend/dao/session"
@@ -38,6 +42,8 @@ type App struct {
 	RAGService  *ragservice.Service
 	RAGEnabled  bool
 	RAGTopK     int
+	TTSCtrl     *ttscontroller.TTSController
+	STTCtrl     *sttcontroller.STTController
 }
 
 func startServer(host string, port int, app *App) error {
@@ -56,7 +62,7 @@ func startServer(host string, port int, app *App) error {
 
 	sessionController := sessioncontroller.NewSessionController(sessionService)
 	// 初始化路由
-	r := router.InitRouter(userController, sessionController, app.RAGCtrl, app.JWTManager)
+	r := router.InitRouter(userController, sessionController, app.RAGCtrl, app.TTSCtrl, app.STTCtrl, app.JWTManager)
 
 	addr := fmt.Sprintf("%s:%d", host, port)
 	log.Printf("Server is running on %s", addr)
@@ -152,6 +158,26 @@ func main() {
 		log.Printf("[RAG] 已在配置中关闭")
 	}
 
+	// 初始化 TTS 客户端与控制器
+	ttsClient := commontts.NewTTSClient(commontts.TTSConfig{
+		APIKey:     conf.TTSConfig.APIKey,
+		ModelName:  conf.TTSConfig.ModelName,
+		Voice:      conf.TTSConfig.Voice,
+		Format:     conf.TTSConfig.Format,
+		SampleRate: conf.TTSConfig.SampleRate,
+	})
+	ttsCtrl := ttscontroller.NewTTSController(ttsClient)
+	log.Printf("[TTS] 初始化完成，模型: %s，音色: %s", conf.TTSConfig.ModelName, conf.TTSConfig.Voice)
+
+	// 初始化 STT 客户端与控制器
+	sttClient := commonstt.NewSTTClient(commonstt.STTConfig{
+		APIKey:    conf.STTConfig.APIKey,
+		ModelName: conf.STTConfig.ModelName,
+		Language:  conf.STTConfig.Language,
+	})
+	sttCtrl := sttcontroller.NewSTTController(sttClient)
+	log.Printf("[STT] 初始化完成，模型: %s，语种: %s", conf.STTConfig.ModelName, conf.STTConfig.Language)
+
 	app := &App{
 		DB:          db,
 		RedisStore:  redisStore,
@@ -162,6 +188,8 @@ func main() {
 		RAGService:  ragSvc,
 		RAGEnabled:  conf.RagConfig.ChatAugmentEnabled,
 		RAGTopK:     conf.RagConfig.ChatAugmentTopK,
+		TTSCtrl:     ttsCtrl,
+		STTCtrl:     sttCtrl,
 	}
 
 	host := conf.MainConfig.Host

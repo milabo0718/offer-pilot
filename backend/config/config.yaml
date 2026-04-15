@@ -36,6 +36,18 @@ rabbitmqConfig:
   password: "guest"
   vhost: "/"
 
+sttConfig:
+  apiKey: "sk-40a116448a4c4a5d8242ac08dda769ac"  # 阿里云百炼 API Key
+  modelName: "qwen3-asr-flash"                     # ASR 模型（Qwen3-ASR-Flash，同步识别）
+  language: "zh"                                   # 识别语种（zh / en，留空则自动检测）
+
+ttsConfig:
+  apiKey: "sk-40a116448a4c4a5d8242ac08dda769ac"  # 阿里云百炼 API Key
+  modelName: "cosyvoice-v3-flash"                  # TTS 模型
+  voice: "longshu_v3"                              # 音色（龙书，沉稳新闻男声，适合面试官）
+  format: "mp3"                                    # 音频格式
+  sampleRate: 22050                                # 采样率
+
 ragConfig:
   enabled: true
   chatAugmentEnabled: true
