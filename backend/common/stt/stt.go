@@ -7,7 +7,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"mime"
 	"net/http"
+	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -80,7 +83,8 @@ func (c *STTClient) Transcribe(ctx context.Context, audioData []byte, filename s
 	b64Audio := base64.StdEncoding.EncodeToString(audioData)
 
 	// 构造 data URI，Qwen3-ASR-Flash 支持直接传 Base64
-	dataURI := "data:audio/mpeg;base64," + b64Audio
+	contentType := detectAudioContentType(filename)
+	dataURI := "data:" + contentType + ";base64," + b64Audio
 
 	reqBody := chatRequest{
 		Model: c.config.ModelName,
@@ -138,4 +142,16 @@ func (c *STTClient) Transcribe(ctx context.Context, audioData []byte, filename s
 	}
 
 	return result.Choices[0].Message.Content, nil
+}
+
+func detectAudioContentType(filename string) string {
+	ext := strings.ToLower(filepath.Ext(filename))
+	if ext == "" {
+		return "audio/webm"
+	}
+	contentType := mime.TypeByExtension(ext)
+	if strings.TrimSpace(contentType) == "" {
+		return "audio/webm"
+	}
+	return contentType
 }

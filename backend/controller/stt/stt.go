@@ -1,6 +1,8 @@
 package stt
 
 import (
+	"io"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -41,6 +43,7 @@ func NewSTTController(client *stt.STTClient) *STTController {
 func (sc *STTController) TranscribeAudio(ctx *gin.Context) {
 	fileHeader, err := ctx.FormFile("audio")
 	if err != nil {
+		log.Printf("[STT] 请求缺少 audio 字段: %v", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "缺少 audio 字段，请以 multipart/form-data 上传音频文件"})
 		return
 	}
@@ -48,28 +51,38 @@ func (sc *STTController) TranscribeAudio(ctx *gin.Context) {
 	// 限制上传大小：25 MB（DashScope 单次转写上限）
 	const maxFileSize = 25 << 20
 	if fileHeader.Size > maxFileSize {
+		log.Printf("[STT] 音频文件过大: filename=%s size=%d", fileHeader.Filename, fileHeader.Size)
 		ctx.JSON(http.StatusRequestEntityTooLarge, gin.H{"error": "音频文件超过 25 MB 限制"})
 		return
 	}
 
 	f, err := fileHeader.Open()
 	if err != nil {
+		log.Printf("[STT] 打开音频文件失败: filename=%s err=%v", fileHeader.Filename, err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "打开音频文件失败"})
 		return
 	}
 	defer f.Close()
 
-	audioData := make([]byte, fileHeader.Size)
-	if _, err = f.Read(audioData); err != nil {
+	audioData, err := io.ReadAll(f)
+	if err != nil {
+		log.Printf("[STT] 读取音频数据失败: filename=%s err=%v", fileHeader.Filename, err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "读取音频数据失败"})
+		return
+	}
+	if len(audioData) == 0 {
+		log.Printf("[STT] 音频文件为空: filename=%s", fileHeader.Filename)
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "音频文件为空，请重新录制"})
 		return
 	}
 
 	text, err := sc.client.Transcribe(ctx.Request.Context(), audioData, fileHeader.Filename)
 	if err != nil {
+		log.Printf("[STT] 转写失败: filename=%s size=%d err=%v", fileHeader.Filename, len(audioData), err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
+	log.Printf("[STT] 转写成功: filename=%s size=%d text_len=%d", fileHeader.Filename, len(audioData), len(text))
 	ctx.JSON(http.StatusOK, TranscribeResponse{Text: text})
 }

@@ -15,9 +15,12 @@ func NewSessionDao(db *gorm.DB) *SessionDao {
 	return &SessionDao{db: db}
 }
 
-func (d *SessionDao) GetSessionsByUserName(ctx context.Context, UserName int64) ([]model.Session, error) {
+func (d *SessionDao) GetSessionsByUserName(ctx context.Context, userName string) ([]model.Session, error) {
 	var sessions []model.Session
-	err := d.db.WithContext(ctx).Where("user_name = ?", UserName).Find(&sessions).Error
+	err := d.db.WithContext(ctx).
+		Where("user_name = ?", userName).
+		Order("updated_at desc, created_at desc").
+		Find(&sessions).Error
 	return sessions, err
 }
 
@@ -29,5 +32,13 @@ func (d *SessionDao) CreateSession(ctx context.Context, session *model.Session) 
 func (d *SessionDao) GetSessionByID(ctx context.Context, sessionID string) (*model.Session, error) {
 	var session model.Session
 	err := d.db.WithContext(ctx).Where("id = ?", sessionID).First(&session).Error
+	return &session, err
+}
+
+func (d *SessionDao) GetSessionByIDAndUserName(ctx context.Context, sessionID string, userName string) (*model.Session, error) {
+	var session model.Session
+	err := d.db.WithContext(ctx).
+		Where("id = ? AND user_name = ?", sessionID, userName).
+		First(&session).Error
 	return &session, err
 }

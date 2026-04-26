@@ -27,7 +27,12 @@ import { ElMessage } from "element-plus";
 import { Microphone, VideoPause } from "@element-plus/icons-vue";
 import api from "../utils/api";
 
-const emit = defineEmits(["upload-success", "upload-error"]);
+const emit = defineEmits([
+  "upload-success",
+  "upload-error",
+  /** 用户开始录音时发出，供父级停止 TTS 等，实现「说话打断朗读」 */
+  "recording-start",
+]);
 
 const isRecording = ref(false);
 const isUploading = ref(false);
@@ -62,6 +67,7 @@ const startRecording = async () => {
 
     mediaRecorder.start();
     isRecording.value = true;
+    emit("recording-start");
     recordingTime.value = 0;
 
     timer = setInterval(() => {
@@ -97,18 +103,21 @@ const uploadAudio = async (blob) => {
   formData.append("audio", blob, `interview_${Date.now()}.webm`);
 
   try {
-    // 调用后端的语音上传接口（需确保后端有对应路由处理 multipart/form-data）
-    const response = await api.post("/chat/audio-upload", formData);
+    const response = await api.post("/ai/stt/transcribe", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
-    // 假设 status_code 1000 为成功
-    if (response.data && response.data.status_code === 1000) {
-      emit("upload-success", response.data);
+    const text = response.data && response.data.text;
+    if (text && text.trim()) {
+      emit("upload-success", { text });
     } else {
-      throw new Error(response.data?.status_msg || "解析失败");
+      throw new Error(response.data?.error || "未识别到有效语音");
     }
   } catch (error) {
     console.error("音频上传报错:", error);
-    ElMessage.error("语音解析失败，请重试");
+    const msg =
+      error?.response?.data?.error || error?.message || "语音解析失败，请重试";
+    ElMessage.error(msg);
     emit("upload-error", error);
   } finally {
     isUploading.value = false;

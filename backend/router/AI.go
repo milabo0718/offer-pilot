@@ -25,6 +25,7 @@ func AIRouter(
 		r.POST("/chat/history", sc.ChatHistory)
 		r.POST("/chat/send-stream-new-session", sc.CreateStreamSessionAndSendMessage)
 		r.POST("/chat/send-stream", sc.ChatStreamSend)
+		r.POST("/interview/report", sc.GenerateInterviewReport)
 	}
 
 	// TTS 语音合成接口

@@ -18,9 +18,9 @@ type (
 		Sessions []model.SessionInfo `json:"sessions,omitempty"`
 	}
 	CreateSessionAndSendMessageRequest struct {
-		UserQuestion string `json:"question" binding:"required"`   // 用户问题;
-		ModelType    string `json:"modelType" binding:"required"`  // 模型类型;
-		JDProfile    string `json:"jdProfile,omitempty"`           // JD解析画像(JSON字符串)
+		UserQuestion string `json:"question" binding:"required"`  // 用户问题;
+		ModelType    string `json:"modelType" binding:"required"` // 模型类型;
+		JDProfile    string `json:"jdProfile,omitempty"`          // JD解析画像(JSON字符串)
 	}
 
 	CreateSessionAndSendMessageResponse struct {
@@ -56,6 +56,18 @@ type (
 
 	JDParseResponse struct {
 		Data *model.JDParseResult `json:"data,omitempty"`
+		controller.Response
+	}
+
+	InterviewReportRequest struct {
+		SessionID string `json:"sessionId" binding:"required"`
+		ModelType string `json:"modelType"`
+		JDProfile string `json:"jdProfile,omitempty"`
+		Force     bool   `json:"force,omitempty"`
+	}
+
+	InterviewReportResponse struct {
+		Data *model.InterviewReportData `json:"data,omitempty"`
 		controller.Response
 	}
 )
@@ -230,5 +242,29 @@ func (sc *SessionController) ParseJD(ctx *gin.Context) {
 
 	res.Success()
 	res.Data = result
+	ctx.JSON(http.StatusOK, res)
+}
+
+// GenerateInterviewReport 生成面试评分报告和能力雷达图数据。
+func (sc *SessionController) GenerateInterviewReport(ctx *gin.Context) {
+	req := new(InterviewReportRequest)
+	res := new(InterviewReportResponse)
+	userName := ctx.GetString("userName")
+	if err := ctx.ShouldBindJSON(req); err != nil {
+		ctx.JSON(http.StatusOK, res.CodeOf(code.CodeInvalidParams))
+		return
+	}
+	if req.ModelType == "" {
+		req.ModelType = "1"
+	}
+
+	report, code_ := sc.sessionService.GenerateInterviewReport(ctx, userName, req.SessionID, req.ModelType, req.JDProfile, req.Force)
+	if code_ != code.CodeSuccess {
+		ctx.JSON(http.StatusOK, res.CodeOf(code_))
+		return
+	}
+
+	res.Success()
+	res.Data = report
 	ctx.JSON(http.StatusOK, res)
 }

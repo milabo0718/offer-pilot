@@ -4,7 +4,7 @@
       <div class="session-list-header">
         <span>会话列表</span>
         <button class="new-chat-btn" @click="createNewSession">
-          ＋ 新聊天
+          ＋ 开始新面试
         </button>
       </div>
       <ul class="session-list-ul">
@@ -36,6 +36,13 @@
         >
           同步历史数据
         </button>
+        <button
+          class="report-btn"
+          @click="goToReport"
+          :disabled="!currentSessionId || tempSession || loading"
+        >
+          结束面试并生成报告
+        </button>
         <label for="modelType">选择模型：</label>
         <select id="modelType" v-model="selectedModel" class="model-select">
           <option value="1">阿里百炼</option>
@@ -43,6 +50,15 @@
         <label for="streamingMode" style="margin-left: 20px">
           <input type="checkbox" id="streamingMode" v-model="isStreaming" />
           流式响应
+        </label>
+        <label for="voiceMode" style="margin-left: 12px">
+          <input
+            type="checkbox"
+            id="voiceMode"
+            v-model="voiceMode"
+            @change="onVoiceModeChange"
+          />
+          沉浸式面试 (自动朗读)
         </label>
       </div>
 
@@ -78,10 +94,31 @@
         </div>
       </div>
 
+      <div
+        v-if="voiceMode"
+        class="voice-status-bar"
+        :class="{
+          'status-thinking': voiceStatus === 'thinking',
+          'status-speaking': voiceStatus === 'speaking',
+          'status-idle': voiceStatus === 'idle',
+        }"
+      >
+        <span class="voice-status-dot"></span>
+        <span class="voice-status-text">{{ voiceStatusText }}</span>
+        <button
+          v-if="voiceStatus === 'speaking'"
+          type="button"
+          class="stop-tts-btn"
+          @click="stopTTS"
+        >
+          停止朗读
+        </button>
+      </div>
+
       <div class="chat-input">
         <textarea
           v-model="inputMessage"
-          placeholder="请输入你的问题..."
+          placeholder="请作答面试官的问题…（Enter 发送，Shift+Enter 换行）"
           @keydown.enter.exact.prevent="sendMessage"
           :disabled="loading"
           ref="messageInput"
@@ -89,7 +126,10 @@
         ></textarea>
 
         <div class="input-actions-wrapper">
-          <AudioRecorder @upload-success="handleAudioSuccess" />
+          <AudioRecorder
+            @upload-success="handleAudioSuccess"
+            @recording-start="stopTTS"
+          />
           <button
             type="button"
             :disabled="!inputMessage.trim() || loading"
@@ -106,6 +146,7 @@
 
 <script>
 import { ref, nextTick, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import api from "../utils/api";
 // 新增：引入录音组件
@@ -117,6 +158,7 @@ export default {
     AudioRecorder, // 新增：注册组件
   },
   setup() {
+    const router = useRouter();
     // 新增：侧边栏状态控制
     const isSidebarOpen = ref(true);
 
@@ -130,6 +172,49 @@ export default {
     const messageInput = ref(null);
     const selectedModel = ref("1");
     const isStreaming = ref(false);
+    const voiceMode = ref(false);
+    const voiceStatus = ref("idle");
+    const voiceStatusText = computed(() => {
+      if (voiceStatus.value === "thinking") return "AI 正在思考...";
+      if (voiceStatus.value === "speaking") return "AI 正在回答（语音已播放）";
+      return "等待你按下录音开始作答";
+    });
+    let currentAudio = null;
+    /** 与 currentAudio 配对，用于 stop 时 revoke，避免泄漏 */
+    let currentTTSUrl = null;
+
+    const stopTTS = () => {
+      if (currentTTSUrl) {
+        try {
+          URL.revokeObjectURL(currentTTSUrl);
+        } catch (_) {
+          // ignore
+        }
+        currentTTSUrl = null;
+      }
+      if (currentAudio) {
+        try {
+          currentAudio.pause();
+          currentAudio.removeAttribute("src");
+          currentAudio.load();
+        } catch (_) {
+          // ignore
+        }
+        currentAudio = null;
+      }
+      if (voiceMode.value) voiceStatus.value = "idle";
+    };
+
+    const onVoiceModeChange = () => {
+      if (voiceMode.value) {
+        isStreaming.value = true;
+        voiceStatus.value = "idle";
+        ElMessage.success("已进入沉浸式面试：AI 回复将自动朗读");
+      } else {
+        stopTTS();
+        voiceStatus.value = "idle";
+      }
+    };
 
     // 新增：处理语音上传成功的回调
     const handleAudioSuccess = async (data) => {
@@ -166,6 +251,18 @@ export default {
       }
     };
 
+    const goToReport = () => {
+      if (!currentSessionId.value || tempSession.value) {
+        ElMessage.warning("请先完成至少一轮对话再生成报告");
+        return;
+      }
+
+      router.push({
+        name: "InterviewReport",
+        params: { sessionId: String(currentSessionId.value) },
+      });
+    };
+
     const renderMarkdown = (text) => {
       if (!text && text !== "") return "";
       return String(text)
@@ -176,20 +273,39 @@ export default {
     };
 
     const playTTS = async (text) => {
+      const content = String(text || "").trim();
+      if (!content) return;
       try {
-        const response = await api.post("/chat/tts", { text });
-        if (
-          response.data &&
-          response.data.status_code === 1000 &&
-          response.data.url
-        ) {
-          const audio = new Audio(response.data.url);
-          audio.play();
-        } else {
-          ElMessage.error("无法获取语音");
-        }
+        stopTTS();
+        const response = await api.post(
+          "/ai/tts/synthesize",
+          { text: content },
+          { responseType: "arraybuffer" }
+        );
+        const blob = new Blob([response.data], { type: "audio/mpeg" });
+        const url = URL.createObjectURL(blob);
+        currentTTSUrl = url;
+        const audio = new Audio(url);
+        currentAudio = audio;
+        voiceStatus.value = "speaking";
+        const endCleanup = (revoke) => {
+          if (revoke && currentTTSUrl === url) {
+            try {
+              URL.revokeObjectURL(url);
+            } catch (_) {
+              // ignore
+            }
+            currentTTSUrl = null;
+          }
+          if (currentAudio === audio) currentAudio = null;
+          if (voiceMode.value) voiceStatus.value = "idle";
+        };
+        audio.onended = () => endCleanup(true);
+        audio.onerror = () => endCleanup(true);
+        await audio.play();
       } catch (error) {
         console.error("TTS error:", error);
+        if (voiceMode.value) voiceStatus.value = "idle";
         ElMessage.error("请求语音接口失败");
       }
     };
@@ -218,14 +334,17 @@ export default {
       }
     };
 
-    const createNewSession = () => {
+    const createNewSession = async () => {
       currentSessionId.value = "temp";
       tempSession.value = true;
       currentMessages.value = [];
-      // focus input
-      nextTick(() => {
-        if (messageInput.value) messageInput.value.focus();
-      });
+      await nextTick();
+      if (messageInput.value) messageInput.value.focus();
+
+      // 由 AI 作为面试官主动开场：发送一条 kickoff 用户消息，
+      // 触发模型输出自我介绍 + 第一道面试题。
+      inputMessage.value = "请开始对我的模拟面试。";
+      await sendMessage();
     };
 
     const switchSession = async (sessionId) => {
@@ -313,6 +432,7 @@ export default {
 
       try {
         loading.value = true;
+        if (voiceMode.value) voiceStatus.value = "thinking";
         if (isStreaming.value) {
           await handleStreaming(currentInput);
         } else {
@@ -504,6 +624,11 @@ export default {
             }
           }
         }
+
+        if (voiceMode.value) {
+          const finalText = currentMessages.value[aiMessageIndex].content;
+          playTTS(finalText);
+        }
       } catch (err) {
         console.error("Stream error:", err);
         loading.value = false;
@@ -535,6 +660,7 @@ export default {
           currentSessionId.value = sessionId;
           tempSession.value = false;
           currentMessages.value = [...sessions.value[sessionId].messages];
+          if (voiceMode.value) playTTS(aiMessage.content);
         } else {
           ElMessage.error(response.data?.status_msg || "发送失败");
 
@@ -558,6 +684,7 @@ export default {
           };
           sessionMsgs.push(aiMessage);
           currentMessages.value = [...sessionMsgs];
+          if (voiceMode.value) playTTS(aiMessage.content);
         } else {
           ElMessage.error(response.data?.status_msg || "发送失败");
           sessionMsgs.pop(); // rollback
@@ -594,11 +721,17 @@ export default {
       messageInput,
       selectedModel,
       isStreaming,
+      voiceMode,
+      voiceStatus,
+      voiceStatusText,
+      onVoiceModeChange,
       renderMarkdown,
       playTTS,
+      stopTTS,
       createNewSession,
       switchSession,
       syncHistory,
+      goToReport,
       sendMessage,
     };
   },
@@ -810,7 +943,8 @@ export default {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
-.sync-btn {
+.sync-btn,
+.report-btn {
   background: linear-gradient(135deg, #67c23a 0%, #409eff 100%);
   color: white;
   padding: 8px 14px;
@@ -823,7 +957,13 @@ export default {
   transition: all 0.2s ease;
 }
 
-.sync-btn:disabled {
+.report-btn {
+  background: linear-gradient(135deg, #409eff 0%, #67c23a 100%);
+  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.2);
+}
+
+.sync-btn:disabled,
+.report-btn:disabled {
   background: #ccc;
   box-shadow: none;
   cursor: not-allowed;
@@ -960,6 +1100,74 @@ export default {
   color: #999;
   font-weight: 600;
   margin-left: 6px;
+}
+
+.voice-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 16px;
+  margin: 12px 20px 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  font-size: 14px;
+  font-weight: 600;
+  color: #34495e;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.stop-tts-btn {
+  margin-left: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c0392b;
+  background: #fff5f4;
+  border: 1px solid rgba(192, 57, 43, 0.35);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.stop-tts-btn:hover {
+  background: #ffe8e5;
+}
+
+.voice-status-bar .voice-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #bdc3c7;
+  box-shadow: 0 0 0 rgba(189, 195, 199, 0.6);
+}
+
+.voice-status-bar.status-thinking .voice-status-dot {
+  background-color: #f39c12;
+  animation: pulseDot 1.2s infinite;
+}
+
+.voice-status-bar.status-speaking .voice-status-dot {
+  background-color: #27ae60;
+  animation: pulseDot 1.2s infinite;
+}
+
+.voice-status-bar.status-idle .voice-status-dot {
+  background-color: #3498db;
+}
+
+@keyframes pulseDot {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 8px rgba(0, 0, 0, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
 }
 
 /* message content */

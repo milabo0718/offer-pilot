@@ -64,5 +64,6 @@ func migration(db *gorm.DB) error {
 		new(model.User),
 		new(model.Session),
 		new(model.Message),
+		new(model.InterviewReport),
 	)
 }

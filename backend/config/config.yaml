@@ -1,12 +1,11 @@
 mainConfig:
   appName: "offer-pilot"
   host: "0.0.0.0"
-  port: 9090
+  port: 9095
 
 emailConfig:
   authcode: "vqqocpwnzmzlbdhb"
   email: "1019426464@qq.com"
-  devMode: true
 
 redisConfig:
   host: "127.0.0.1"
@@ -18,9 +17,9 @@ redisConfig:
 mysqlConfig:
   host: "127.0.0.1"
   port: 3306
-  user: "offerpilot"
-  password: "offerpilot123"
-  databaseName: "offer_pilot"
+  user: "root"
+  password: "lwr2005718"
+  databaseName: "offer-pilot"
   charset: "utf8mb4"
 
 jwtConfig:

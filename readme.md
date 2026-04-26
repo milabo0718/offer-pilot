@@ -24,7 +24,7 @@
    - 解析成功后自动跳转到 `AIChat`
    - 前端会把 `jd_profile` 注入到后续聊天请求
 
-4. 📚 **RAG 数据工程（阶段三核心）**
+4. 📚 **RAG 数据工程（阶段三数据层）**
     - 多仓库题库接入：Interview + interview-baguwen + java-eight-part + cpp_interview
     - 自动清洗命令：支持 `strict/full` 两档
     - 自动结构化命令：将 Markdown 转换为问答 JSON，并自动打 `tags/difficulty`
@@ -32,6 +32,30 @@
        - full：`backend/examples/rag_data_structured_full/qa_dataset.json`（990 条）
        - strict：`backend/examples/rag_data_structured_strict/qa_dataset.json`（603 条）
     - 检索评测样例表（25 条查询）：`backend/examples/rag_evaluation_samples.md`
+
+5. 🧠 **RAG 接入聊天主链路（阶段三业务层）**
+    - 已在 `backend/service/session/session.go` 的 `buildChatPrompt` 统一接入
+    - 所有聊天入口（新会话 / 已有会话 / 流式 / 非流式）都会自动走一次 RAG 召回
+    - 召回结果会拼到 `【RAG召回上下文】` 段，再连同 `【岗位画像】` 和 `【用户问题】` 一起交给大模型
+    - 控制开关：`ragConfig.chatAugmentEnabled`、`ragConfig.chatAugmentTopK`
+    - 终端会打印 `[RAG Augment] injected N chunks ...`，便于排查是否真的注入
+    - Redis Stack 不可用时自动降级为"无 RAG 回答"，不会阻塞聊天
+
+6. 🎙️ **沉浸式语音面试链路（阶段四）**
+    - 前端：`AIChat` 新增 `沉浸式面试 (自动朗读)` 开关 + `AudioRecorder` 录音组件
+    - 录音 → `POST /api/v1/ai/stt/transcribe`（multipart，字段 `audio`）→ 拿到文字
+    - 文字自动进入聊天 → 走 `/send-stream` 或 `/send-stream-new-session` 流式响应
+    - 流结束后自动调用 `POST /api/v1/ai/tts/synthesize` 拿 MP3 Blob 并播放
+    - 状态条：`等待你按下录音 / AI 正在思考 / AI 正在回答（语音已播放）`
+    - 服务端：`backend/common/stt`（Qwen3-ASR-Flash）+ `backend/common/tts`（CosyVoice-v3-flash）
+
+7. 📊 **异步评分与能力雷达图（阶段五）**
+    - 前端新增 `InterviewReport` 页面，可从 `AIChat` 点击“结束面试并生成报告”进入
+    - 后端新增 `POST /api/v1/ai/interview/report`，基于会话历史生成结构化评分 JSON
+    - 评分维度：技术基础 / 工程实践 / 问题解决 / 沟通表达 / 学习能力 / 岗位匹配度
+    - 报告结果会落库缓存到 `interview_reports`，支持重新生成
+    - 模型不可用时自动降级为本地规则评分，保证演示闭环不断链
+    - 会话列表与历史记录支持从 MySQL 恢复，不再只依赖运行时内存
 
 ---
 
@@ -57,7 +81,7 @@ MySQL        Redis       RabbitMQ
 
 - Vue 3（Composition API）
 - Vue Router + Axios
-- 页面：`Login / Register / Menu / JDParser / AIChat`
+- 页面：`Login / Register / Menu / JDParser / AIChat / InterviewReport`
 
 ### 后端（`backend`）
 
@@ -92,6 +116,13 @@ MySQL        Redis       RabbitMQ
 2. 后端生成回答（普通/流式）  
 3. 用户与 AI 消息通过 RabbitMQ 异步写入 MySQL `messages`
 
+### 3) 面试报告
+
+1. 用户在 `AIChat` 点击“结束面试并生成报告”  
+2. 前端请求 `/api/v1/ai/interview/report`，传入 `sessionId`、`modelType`、`jdProfile`  
+3. 后端读取会话历史，调用模型生成评分报告；模型失败时使用本地兜底评分  
+4. 报告写入 MySQL `interview_reports`，前端展示总评、能力雷达图、亮点、风险与行动建议
+
 ---
 
 ## 🛠 环境依赖
@@ -124,8 +155,8 @@ MySQL        Redis       RabbitMQ
 
 ```bash
 sudo service mysql start
-sudo service redis-server start
 sudo service rabbitmq-server start
+sudo service redis-stack-server start
 ```
 
 ### 2) 配置后端
@@ -173,6 +204,13 @@ npm run serve
 - `POST /api/v1/ai/chat/send-stream-new-session`：新会话流式
 - `POST /api/v1/ai/chat/send-stream`：既有会话流式
 - `POST /api/v1/ai/chat/history`：会话历史
+- `POST /api/v1/ai/interview/report`：生成或读取面试评价报告（支持 `force=true` 重新生成）
+
+### 语音接口（阶段四）
+
+- `POST /api/v1/ai/stt/transcribe`：上传音频（multipart，字段 `audio`），返回 `{"text": "..."}`
+- `POST /api/v1/ai/tts/synthesize`：`{"text": "..."}` → 直接返回 `audio/mpeg` 二进制
+- `POST /api/v1/ai/tts/stream`：`{"text": "..."}` → `chunked audio/mpeg` 低延迟流（需要 MediaSource 播放）
 
 ### RAG 底座接口（新增）
 
@@ -339,10 +377,10 @@ go run ./cmd/rag_demo
 - [x] 基础框架与用户系统
 - [x] 聊天（普通+流式）与异步持久化
 - [x] JD 解析接口 + 前端入口 + 自动跳转面试
-- [x] RAG 检索增强（阶段三）
 - [x] RAG 数据工程（多仓库清洗 + 问答结构化 + 评测样例）
-- [ ] STT / TTS 语音链路（阶段四）
-- [ ] 异步评分与雷达图（阶段五）
+- [x] RAG 检索增强接入聊天主链路（阶段三业务层）
+- [x] STT / TTS 语音链路 + 前端沉浸式面试（阶段四）
+- [x] 异步评分与能力雷达图（阶段五）
 
 ---
 

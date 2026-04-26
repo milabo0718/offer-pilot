@@ -4,6 +4,7 @@ go 1.25.8
 
 require (
 	github.com/cloudwego/eino v0.7.13
+	github.com/cloudwego/eino-ext/components/embedding/openai v0.0.0-20260415031821-e2fcf1501241
 	github.com/google/uuid v1.6.0
 	github.com/spf13/viper v1.21.0
 	golang.org/x/crypto v0.49.0
@@ -20,7 +21,6 @@ require (
 	github.com/bytedance/sonic/loader v0.5.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/cloudwego/base64x v0.1.6 // indirect
-	github.com/cloudwego/eino-ext/components/embedding/openai v0.0.0-20260413110502-8d10f059c9a4 // indirect
 	github.com/cloudwego/eino-ext/libs/acl/openai v0.1.15 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect

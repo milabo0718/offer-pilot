@@ -1,6 +1,9 @@
 set -euo pipefail
 
 ENV_FILE="${1:-.env.local}"
+MODE="${2:-backend}"
+INGEST_DIR="${3:-./examples/rag_data_structured_strict}"
+MOCK_FLAG="${4:-false}"
 
 trim() {
   local s="$1"
@@ -41,5 +44,18 @@ while IFS= read -r raw_line || [[ -n "$raw_line" ]]; do
   export "$key=$value"
 done < "$ENV_FILE"
 
-echo "Environment loaded. Starting backend..."
-go run .
+if [[ "$MODE" == "backend" ]]; then
+  echo "Environment loaded. Starting backend..."
+  go run .
+  exit $?
+fi
+
+if [[ "$MODE" == "rag-ingest" ]]; then
+  echo "Environment loaded. Starting rag_ingest..."
+  echo "dir=$INGEST_DIR mock=$MOCK_FLAG"
+  go run ./cmd/rag_ingest -dir "$INGEST_DIR" -mock="$MOCK_FLAG"
+  exit $?
+fi
+
+echo "未知模式: $MODE（可选: backend | rag-ingest）"
+exit 1

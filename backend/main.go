@@ -21,6 +21,7 @@ import (
 	ttscontroller "github.com/milabo0718/offer-pilot/backend/controller/tts"
 	usercontroller "github.com/milabo0718/offer-pilot/backend/controller/user"
 	messagedao "github.com/milabo0718/offer-pilot/backend/dao/message"
+	reportdao "github.com/milabo0718/offer-pilot/backend/dao/report"
 	sessiondao "github.com/milabo0718/offer-pilot/backend/dao/session"
 	userdao "github.com/milabo0718/offer-pilot/backend/dao/user"
 	"github.com/milabo0718/offer-pilot/backend/router"
@@ -57,7 +58,9 @@ func startServer(host string, port int, app *App) error {
 	// Session相关的DAO、Service、Controller初始化
 	sessionDao := sessiondao.NewSessionDao(app.DB)
 
-	sessionService := sessionservice.NewSessionService(sessionDao, app.AiManager)
+	messageDao := messagedao.NewMessageDao(app.DB)
+	reportDao := reportdao.NewReportDao(app.DB)
+	sessionService := sessionservice.NewSessionService(sessionDao, messageDao, reportDao, app.AiManager)
 	sessionService.ConfigureRAGAugment(app.RAGService, app.RAGEnabled, app.RAGTopK)
 
 	sessionController := sessioncontroller.NewSessionController(sessionService)
